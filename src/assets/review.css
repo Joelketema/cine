@@ -1,0 +1,14 @@
+.bubble::after{
+
+    content: "";
+  width: 0px;
+  height: 0px;
+  background-color: red;
+  position: absolute;
+  border-left: 24px solid #fff;
+  border-right: 12px solid transparent;
+  border-top: 12px solid #fff;
+  border-bottom: 20px solid transparent;
+  left: 32px;
+  bottom: -24px;
+}
