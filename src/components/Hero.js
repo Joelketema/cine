@@ -1,11 +1,20 @@
 
 import { Box, Text, Button,Image } from "@chakra-ui/react"
 import ConfirmationNumberRoundedIcon from '@mui/icons-material/ConfirmationNumberRounded';
+import { Spinner } from '@chakra-ui/react'
 
 import "../assets/hero.css"
 
-const Hero = ({ movie }) => {
+const Hero = ({ movie,loading,setLoading }) => {
     console.log(movie)
+
+    if (loading) return (
+        <Box bg={"white"} display={"flex"} justifyContent={"center"} alignItems={"center"} textAlign={"center"} zIndex={-5} mt={5}  h={"400px"} w={"100%"}>
+            <Spinner color={"orangered"} />
+        </Box>
+    
+
+    )
     return (
         <Box zIndex={-5} mt={5} className="overlay" backgroundPosition={"center"} backgroundSize={"contain"}backgroundImage={movie.primaryImage?.url} h={"400px"} w={"100%"}>
             <Box zIndex={5} display={"flex"} top={"20%"} position={"relative"}justifyContent={"space-around"} alignItems={"center"}>

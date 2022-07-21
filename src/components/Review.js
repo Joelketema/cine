@@ -3,10 +3,14 @@ import { Box, Text,Image } from "@chakra-ui/react"
 import { useState, useEffect } from 'react'
 import { Grid, GridItem } from '@chakra-ui/react'
 // import "../assets/review.css"
+import { Spinner } from '@chakra-ui/react'
+
 
 const Review = ({title}) => {
 
     const [movies, setMovies] = useState([{}])
+    const [loading, setLoading] = useState(true)
+    
     const options = {
         method: 'GET',
         headers: {
@@ -21,11 +25,20 @@ const Review = ({title}) => {
             .then(response => {
                 console.log(response)
                 setMovies(response.results)
+                setLoading(false)
             })
         .catch(err => console.error(err));
     }, [1])
     
- 
+    if (loading) return (
+        <Box flexDirection={"column"} mt={8} p={3}>
+        <Text fontSize={"lg"} pb={5}>{title ? title : "Reviews"}</Text>
+        <Box display={"flex"} justifyContent={"center"} alignItems={"center"} textAlign={"center"}>
+              <Spinner color={"orangered"} />
+        </Box>  
+        </Box>
+    )
+
     return (
         <Box mt={5} p={3}>
         <Text fontSize={"lg"} pb={5}>{title ? title : "Reviews"}</Text>

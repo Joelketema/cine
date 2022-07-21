@@ -6,7 +6,11 @@ import Footer from "./components/Footer"
 import Ticket from "./pages/Ticket"
 import { Switch } from '@chakra-ui/react'
 
+
+
 function App() {
+
+
   return (
     <>
     <Routes>

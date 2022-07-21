@@ -12,7 +12,9 @@ import Discussion from "../components/Discussion"
 const Ticket = ({ query }) => {
     
     const [movie, setMovie] = useState([{}])
-    const [title,setTitle] = useState("")
+    const [title, setTitle] = useState("")
+    const [loading, setLoading] = useState(true);
+
     const name = useParams()
    
     const options = {
@@ -30,6 +32,7 @@ const Ticket = ({ query }) => {
         axios.request(options).then(response => {
             setMovie(response.data.results[0])
             setTitle(response.data.results[0].titleText?.text)
+            setLoading(false)
 
         })
     }, [1])
@@ -37,8 +40,8 @@ const Ticket = ({ query }) => {
 
     return (
         <>
-            <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Starting Up"} title={title} />
-            <Hero movie={movie} />
+            <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Starting Up"} title={title}  />
+            <Hero movie={movie} loading={loading} setLodaing={setLoading} />
             <Slider title={"Cast"} genre={"Romance"} />
             <Plot plot={movie.plot?.plotText} />
             <Discussion title={"Discussion"}/>

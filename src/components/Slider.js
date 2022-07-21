@@ -4,10 +4,11 @@ import { Splide, SplideSlide} from '@splidejs/react-splide';
 import '@splidejs/splide/dist/css/splide.min.css';
 import { useState, useEffect } from 'react'
 import { Link } from "react-router-dom";
-
+import { Spinner } from '@chakra-ui/react'
 
 const Slider = ({title,genre}) => {
     const [movies, setMovies] = useState([{}])
+    const [loading,setLoading] = useState(true)
     const options = {
         method: 'GET',
         headers: {
@@ -22,9 +23,19 @@ const Slider = ({title,genre}) => {
             .then(response => {
                 console.log(response)
                 setMovies(response.results)
+                setLoading(false)
             })
         .catch(err => console.error(err));
     }, [1])
+    
+    if (loading) return (
+        <Box flexDirection={"column"} mt={8} p={3}>
+        <Text fontSize={"lg"} pb={5}>{title ? title : "Now Showing"}</Text>
+            <Box display={"flex"} justifyContent={"center"} alignItems={"center"} textAlign={"center"}>
+              <Spinner color={"orangered"} />
+            </Box>  
+        </Box>
+    )
     
     return (
         <Box flexDirection={"column"} mt={8} p={3}>
@@ -32,7 +43,7 @@ const Slider = ({title,genre}) => {
         <Box bg={"orangered"} p={3} borderRadius={10}>    
             <Splide
                 options={{
-                perPage: 4,
+                perPage: 3,
                 rewind:true,
                     gap: '5rem',
                     height: 'max-content',
@@ -46,7 +57,7 @@ const Slider = ({title,genre}) => {
                             <SplideSlide className='ss'>
                             <Link to={`/Ticket/${m.titleText?.text}`}>
                             <Box>
-                                <Image src={m.primaryImage?.url} boxSize='100px' objectFit='cover' borderRadius={10} alt="movie poster" srcset="" />
+                                <Image src={m.primaryImage?.url} boxSize='150px'  objectFit='cover' borderRadius={10} alt="movie poster" srcset="" />
                                 <Box><Text color={"white"} fontSize='md' noOfLines={[1, 2, 3]}>{m.titleText?.text}</Text></Box>    
                             </Box>
                             </Link>
