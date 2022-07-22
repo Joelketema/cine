@@ -56,7 +56,7 @@ const Slider = ({title,genre}) => {
                         return (
                             <SplideSlide className='ss'>
                             <Link to={`/Ticket/${m.titleText?.text}`}>
-                            <Box>
+                            <Box textAlign={"center"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                                 <Image src={m.primaryImage?.url} boxSize='150px'  objectFit='cover' borderRadius={10} alt="movie poster" srcset="" />
                                 <Box><Text color={"white"} fontSize='md' noOfLines={[1, 2, 3]}>{m.titleText?.text}</Text></Box>    
                             </Box>

@@ -9,7 +9,7 @@ import Slider from "../components/Slider"
 import Plot from "../components/Plot"
 import Discussion from "../components/Discussion"
 
-const Ticket = ({ query }) => {
+const Ticket = ({ query,setMovieTitle }) => {
     
     const [movie, setMovie] = useState([{}])
     const [title, setTitle] = useState("")
@@ -32,6 +32,7 @@ const Ticket = ({ query }) => {
         axios.request(options).then(response => {
             setMovie(response.data.results[0])
             setTitle(response.data.results[0].titleText?.text)
+            setMovieTitle(response.data.results[0].titleText?.text)
             setLoading(false)
 
         })

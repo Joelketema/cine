@@ -6,10 +6,10 @@ const Logo = ({first,second}) => {
     return (
     <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} p={2}>
         <Link to={"/"} style={{display:"flex",padding:"3%",justifyContent:"center",alignItems:"center"}}>
-            <Box bg={"orangered"} color={"white"} boxShadow='md' h={""} textAlign={"center"} p={3} borderRadius={"50%"}>
+            <Box bg={"orangered"}  color={"white"} boxShadow={'lg'} h={""} textAlign={"center"} p={3} borderRadius={"50%"}>
                     <Text>{first}{second}</Text>
             </Box>
-            <Box><Text color="black">Movies</Text></Box>    
+            <Box><Text fontWeight={"medium"} color="black">Movies</Text></Box>    
             {/* <Box bg={"black"} color={"white"} boxShadow='md' marginLeft={"-3"} h={"10"} textAlign={"center"} p={3} borderRadius={"50%"}>
                 <Text>{second}</Text>
             </Box> */}
