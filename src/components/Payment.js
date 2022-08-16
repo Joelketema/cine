@@ -18,8 +18,8 @@ const Payment = () => {
 
     const datas= Object.keys(data)
     return (
-        <Box p={5}>
-        <Box class="receipt">
+        <Box p={5} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} >
+        <Box class="receipt" w={{base:"100%",md:"50%"}}>
         <Text class="receipt__header">
             <Text class="receipt__title" color={"black"} fontSize={"xl"}>
             Purchase Summary
@@ -40,13 +40,13 @@ const Payment = () => {
 
         </dl>
         </Box>
-            <Box m={3} display={"flex"} flexDirection={"column"} gap={3}>
+            <Box m={3} display={"flex"} flexDirection={"column"} w={{ base: "100%", md: "20%" }} gap={3}>
                 <Select placeholder='Select Payment option'>
                     <option value='option1'>CBE</option>
                     <option value='option2'>TeleBirr</option>
                     <option value='option3'>Amole</option>
                 </Select>
-                <Button bg={"black"} color={"white"}><Link to={"/book/finish"}>Finish</Link></Button>
+                <Button bg={"black"} color={"white"}><Link to={"/Book/finish"}>Finish</Link></Button>
             </Box>        
         </Box>
     )

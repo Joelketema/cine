@@ -9,7 +9,7 @@ const Checkout = ({ movieTitle }) => {
     
     return (
         <>
-            <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Checkout"} title={movieTitle} />
+            <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Checkout"}/>
             <Payment/>
             
         </>

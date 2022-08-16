@@ -4,8 +4,10 @@ import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRound
 import Filter from "../components/Filter";
 import PickItem from "../components/PickItem";
 import { Link } from "react-router-dom"
+import { useContext } from "react"
+import { TicketContext } from "../context/TicketContext";
 
-const Snack = ({ movieTitle }) => {
+const Snack = ({  }) => {
     
     const items = ["Food", "Drinks", "PopCorn"]
 
@@ -24,13 +26,16 @@ const Snack = ({ movieTitle }) => {
     
     ] 
     
+
+    
+    
     return (
-        <Box p={3}>
-            <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Pick Snacks"} title={movieTitle} />  
-            <Filter items={items} />
+        <Box p={3} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+            {/* <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Pick Snacks"} />   */}
+            <Text fontSize={["17px",null,"23px"]} color={"#213f87"} fontWeight={"medium"} pb={5}>Pick Snacks</Text>
             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                 <PickItem goods={goods} />
-                <Button mr={5} alignSelf={"flex-end"} mt={4} bg={"Black"} color={"white"}><Link to={"/book/seat"}>Skip</Link></Button>
+                <Button mr={5} alignSelf={"flex-end"} mt={4} bg={"Black"} color={"white"}><Link to={"/Book/checkout"}>Skip</Link></Button>
             </Box>
 
         </Box>
