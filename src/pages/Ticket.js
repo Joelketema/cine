@@ -22,6 +22,21 @@ const Ticket = ({ query}) => {
     const { item } = useContext(TicketContext)
     const [ticket, setTicket] = item
     
+    
+    useEffect(() => {
+        if (selectedmovie !== "")
+        
+        {
+            console.log("TiCKET")
+            console.log(localStorage.getItem("TOKEN"))
+            axios.post('http://localhost:3001/api/initializeCart', selectedmovie, {
+                headers: {
+                
+                    autherize : localStorage.getItem("TOKEN")
+                }
+            }).then(res=>console.log(res)).catch(e=>console.log(e))
+        }
+    },[selectedmovie])
  
     const name = useParams()
    

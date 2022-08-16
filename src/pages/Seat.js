@@ -24,15 +24,24 @@ import Header from "../components/Header"
 import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 import Seating from "../components/Seating"
 import {Link} from "react-router-dom"
-import { useContext } from "react"
+import { useContext,useEffect } from "react"
 import { TicketContext } from "../context/TicketContext"
+import { AuthContext } from "../context/AuthContext"
 
 const Seat = ({ }) => {
 
-  const { item } = useContext(TicketContext)
+  const {term} = useContext(AuthContext)
+  const [accept, setAccept] = term
+  const { item,cName,show } = useContext(TicketContext)
   const [ticket, setTicket] = item
+  const [cinema, setCinema] = cName
+  const [time, setTime] = show
 
-  console.log(ticket)
+  useEffect(() => {
+    setTime(time)
+    setCinema(cinema)
+},[1])
+
     const items = ["Price", "2D", "3D", "Location"]
     const { isOpen, onOpen, onClose } = useDisclosure()
     

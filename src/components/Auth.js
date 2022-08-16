@@ -67,6 +67,7 @@ export function Auth({ register, login }) {
            console.log(res.headers['autherize'])
                 if (res.headers['autherize'])
                 {
+                    console.log(res.headers["user"]) 
                     localStorage.setItem("TOKEN", res.headers['autherize'])
                     toast.success("Successfully Logged in!")
                      navigate("/")
