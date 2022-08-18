@@ -2,9 +2,10 @@
 import { Box, Text, Button,Image } from "@chakra-ui/react"
 import ConfirmationNumberRoundedIcon from '@mui/icons-material/ConfirmationNumberRounded';
 import { Spinner } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
-import { useContext } from "react"
+import { Link,useNavigate } from 'react-router-dom'
+import { useContext,useEffect,useState } from "react"
 import { AuthContext } from "../context/AuthContext";
+import axios from "axios"
 import "../assets/hero.css"
 
 const Hero = ({ movie,loading,setLoading }) => {
@@ -12,6 +13,31 @@ const Hero = ({ movie,loading,setLoading }) => {
     const {secure} = useContext(AuthContext)
     const [auth, setAuth] = secure
     
+    const {movietitle} = useContext(AuthContext)
+    const [selectedmovie, setSelectedMovie] = movietitle
+
+    const navigate = useNavigate()
+
+    const handleRequest = () => {
+        if (auth) {
+            if (selectedmovie !== "") {
+
+                axios.post('http://localhost:3001/api/initializeCart', { "movieName": selectedmovie }
+                    , {
+                        headers: {
+                
+                            autherize: localStorage.getItem("TOKEN")
+                        }
+                    }).then(res => {
+
+                       navigate(`/Book`) 
+                    }).catch(e => console.log(e))
+            }
+        }
+        else navigate("/auth")
+        
+    }
+
     function formatSeconds(seconds) {
         var date = new Date(1970,0,1);
         date.setSeconds(seconds);
@@ -68,7 +94,7 @@ const Hero = ({ movie,loading,setLoading }) => {
                 <Text>Duration : {formatSeconds(movie.runtime?.seconds)}</Text>
                 <Text>Rating : {movie.ratingsSummary?.aggregateRating}/10</Text>
                 <Text>Genre : {movie.genres?.genres[0].text + ","+ movie.genres?.genres[1].text}</Text>
-                <Link to={auth ? `/book` : '/auth'} ><Button variant='outline' _hover={{backgroundColor:"#213f87"}} rightIcon={<ConfirmationNumberRoundedIcon />}>{auth ? "Book Your Ticket" : "Sign up to Book"}</Button></Link>
+                <Button onClick={handleRequest} variant='outline' _hover={{backgroundColor:"#213f87"}} rightIcon={<ConfirmationNumberRoundedIcon />}>{auth ? "Book Your Ticket" : "Sign up to Book"}</Button>
             </Box>
         </Box>
     </Box>

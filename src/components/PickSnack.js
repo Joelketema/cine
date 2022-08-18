@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext'
 import { Box, Text, Button, Image } from "@chakra-ui/react"
 import { Link, useNavigate } from "react-router-dom"
 import { Select } from '@chakra-ui/react'
+import toast from 'react-hot-toast'
 
 import {
     AlertDialog,
@@ -36,15 +37,32 @@ import { TicketContext } from '../context/TicketContext'
   
 const PickSnack= ({ goods }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const[selectedValue,setSelectedValue] = useState("")
+  const[selectedAmount,setSelectedAmount] = useState("")
 
-  const { show,cName } = useContext(TicketContext)
+  const { show,cName,snackArray } = useContext(TicketContext)
   const [time, setTime] = show
   
   const [cinema, setCinema] = cName
   
+  const [snacks, setSnacks] = snackArray
+  
   const[alert,setAlert] = useState(false)
     
   const [data, setData] = useState({})
+  
+  const handleSelectedValue = (e) => {
+    console.log(e.target.value)
+    if(e.target.value!=="")
+    setSelectedValue(e.target.value)
+  }
+
+  const handleSelectedAmount = (e) => {
+    console.log(e)
+    setSelectedAmount(e)
+  }
+
+
   
     
     return (
@@ -63,13 +81,13 @@ const PickSnack= ({ goods }) => {
             <Box bg={"white"} display={"flex"} flexDirection={"column"} gap={2} minWidth={"5%"} maxWidth={"100%"} p={3}>    
        
                                 <Box display={"flex"} flexDirection={"column"} gap={3}>
-                                <Select placeholder='Select Size' >
-                                        <option value='option1'>Small</option>
-                                        <option value='option2'>large</option>
+                                <Select placeholder='Select Size' onChange={handleSelectedValue} >
+                                        <option value='small'>Small</option>
+                                        <option value='large'>large</option>
                                         <option value='option3'>Option 3</option>
                                 </Select>
                                         
-                                <NumberInput defaultValue={0} min={0} max={5}>
+                                <NumberInput defaultValue={0} min={0} max={5} onChange={handleSelectedAmount}>
                                     <NumberInputField />
                                     <NumberInputStepper>
                                         <NumberIncrementStepper />
@@ -82,8 +100,17 @@ const PickSnack= ({ goods }) => {
                             <Box>
                                 <Button onClick={
                                     () => {
-                                     console.log("bought")
-                                    }} mb={2} mr={2} bg={"black"} color={"white"}>Buy</Button> 
+                                      setSnacks(prev => [...prev, {
+                                        "snackName": m.Name,
+                                        "snackProp": selectedValue,
+                                        "amount": selectedAmount,
+                                        "price" : m.price
+                                
+                                      }
+                                       
+                                      ])
+                                      toast.success(`${m.Name} Added!`)
+                                    }} mb={2} mr={2} bg={"black"} color={"white"}>Add Snack</Button> 
                         </Box>
 
 

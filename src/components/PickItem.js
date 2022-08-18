@@ -2,7 +2,8 @@
 import { useRef, useState, useEffect,useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { Box, Text, Button, Image } from "@chakra-ui/react"
-import { Link,useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import axios from "axios"
 import {
     AlertDialog,
     AlertDialogBody,
@@ -85,9 +86,27 @@ function AlertDialogExample({cinema,time,alert,setAlert, onOpen, onClose }) {
     const [accept, setAccept] = term
 
 
- 
+    const navigate = useNavigate()
+
+    const handleRequest = () => {
+        
+            if (cinema !== ""&& time!=="") {
   
-  const navigate = useNavigate()
+                axios.patch('http://localhost:3001/api/addToCart', { "cinemaName": cinema , "showtime" :time }
+                    , {
+                        headers: {
+                
+                            autherize: localStorage.getItem("TOKEN")
+                        }
+                    }).then(res => {
+                      setAccept(true)
+                      navigate("/Book/seat")
+
+                    }).catch(e => console.log(e))
+            }
+        
+    }
+  
 
     return (
       <>
@@ -117,11 +136,7 @@ function AlertDialogExample({cinema,time,alert,setAlert, onOpen, onClose }) {
                 }}>
                   Cancel
                 </Button>
-                <Button colorScheme='green' onClick={() => {
-                  setAccept(true)
-                  navigate("/Book/seat")
-
-                }} ml={3}>
+                <Button colorScheme='green' onClick={handleRequest} ml={3}>
                   Accept
                 </Button>
               </AlertDialogFooter>

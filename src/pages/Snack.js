@@ -3,9 +3,11 @@ import Header from "../components/Header"
 import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 import Filter from "../components/Filter";
 import PickSnack from "../components/PickSnack";
-import { Link } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
 import { useContext } from "react"
 import { TicketContext } from "../context/TicketContext";
+import axios from "axios"
+import toast from "react-hot-toast"
 
 const Snack = ({  }) => {
     
@@ -29,9 +31,27 @@ const Snack = ({  }) => {
     
     ] 
     
-    const { item } = useContext(TicketContext)
-    const [ticket, setTicket] = item
-    console.log(ticket)
+    const { snackArray } = useContext(TicketContext)
+    const [snacks, setSnacks] = snackArray
+    
+    const navigate = useNavigate()
+
+    const handleRequest = () => {
+        if (snacks.length > 0) {
+          axios.post("http://localhost:3001/api/addToCartSnacks", snacks, {
+            headers: {
+      
+              autherize: localStorage.getItem("TOKEN")
+            }
+          }).then(res => {
+        
+              console.log(res)
+              navigate("/Book/checkout")
+              
+          })
+        }
+
+      }
     
     return (
         <Box p={3} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
@@ -39,7 +59,7 @@ const Snack = ({  }) => {
             <Text fontSize={["17px",null,"23px"]} color={"#213f87"} fontWeight={"medium"} pb={5}>Pick Snacks</Text>
             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                 <PickSnack goods={goods} />
-                <Button mr={5} alignSelf={"flex-end"} mt={4} bg={"Black"} color={"white"}><Link to={"/Book/checkout"}>Skip</Link></Button>
+                <Button mr={5} onClick={handleRequest} alignSelf={"flex-end"} mt={4} bg={"Black"} color={"white"}>{snacks.length === 0 ? "Skip" : "Next"}</Button>
             </Box>
 
         </Box>

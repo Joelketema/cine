@@ -8,7 +8,8 @@ export const TicketProvider = (props) => {
     const [time, setTime] = useState("")   
     const [cinema, setCinema] = useState("")   
     const [seats, setSeats] = useState([])   
-    const [snacks, setSnacks] = useState([])   
+    const [snacks, setSnacks] = useState([]) 
+    
  
     
     // movieName: "",

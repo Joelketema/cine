@@ -19,41 +19,61 @@ import {
   } from '@chakra-ui/react'
 
 import Snack from "./Snack"
-
+import axios from "axios"
 import Header from "../components/Header"
 import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 import Seating from "../components/Seating"
-import {Link} from "react-router-dom"
-import { useContext,useEffect } from "react"
+import SeatingLayout from "../components/SeatingLayout"
+import {Link,useNavigate} from "react-router-dom"
+import { useContext,useEffect,useState } from "react"
 import { TicketContext } from "../context/TicketContext"
 import { AuthContext } from "../context/AuthContext"
+import toast from "react-hot-toast"
 
 const Seat = ({ }) => {
-
+  const [open,setOpen] = useState(false)
   const {term} = useContext(AuthContext)
   const [accept, setAccept] = term
-  const { item,cName,show } = useContext(TicketContext)
+  const { item,cName,show,seating } = useContext(TicketContext)
   const [ticket, setTicket] = item
   const [cinema, setCinema] = cName
   const [time, setTime] = show
+  
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [seats, setSeats] = seating
 
-  useEffect(() => {
-    setTime(time)
-    setCinema(cinema)
-},[1])
+  const handleRequest = () => {
+    if (seats.length > 0) {
+      axios.post("http://localhost:3001/api/addToCartSeats", seats, {
+        headers: {
+  
+          autherize: localStorage.getItem("TOKEN")
+        }
+      }).then(res => {
+        setOpen(true)
+        console.log(res)
+      })
+    }
+    else {
+      toast.error("Please Select Seats!")
+      console.log("empty")
+    }
+  }
+  
+
+
 
     const items = ["Price", "2D", "3D", "Location"]
-    const { isOpen, onOpen, onClose } = useDisclosure()
     
     return (
         <>
             <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Pick a Seat"}  />  
-            <Seating />
+            <SeatingLayout />
             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
-            <Button position={"relative"}onClick={onOpen}  mb={10} right={0} mr={5} alignSelf={"flex-end"} mt={4} bg={"Black"} color={"white"}>
+          <Button position={"relative"} onClick={handleRequest}  mb={10} right={0} mr={5} alignSelf={"flex-end"} mt={4} bg={"Black"} color={"white"}>
                 Next
                 </Button>
-                {isOpen && <BasicUsage  isOpen = {isOpen} onOpen={onOpen} onClose={onClose} />}
+                {open && <BasicUsage  isOpen={open} onOpen={onOpen} onClose={onClose} />}
             </Box>
         </>
     )

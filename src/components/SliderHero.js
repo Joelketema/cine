@@ -2,16 +2,20 @@
 import { Box, Text, Button,Image } from "@chakra-ui/react"
 import ConfirmationNumberRoundedIcon from '@mui/icons-material/ConfirmationNumberRounded';
 import { Spinner } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { Link,useNavigate } from 'react-router-dom'
+import { useState, useEffect, useContext } from 'react'
+import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 // import "../assets/hero.css"
+
 
 const SliderHero = ({ movie, loading, setLoading }) => {
     const [onemovie, setOneMovie] = useState([{}])
     const [title, setTitle] = useState("")
+    
 
-    console.log(movie)
+
+ 
     const options = {
         method: 'GET',
         url: `https://moviesdatabase.p.rapidapi.com/titles/search/title/${movie.titleText?.text}`,
