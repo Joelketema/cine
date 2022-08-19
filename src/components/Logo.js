@@ -13,11 +13,17 @@ import {
 import { Link,useNavigate } from "react-router-dom"
 import {useState,useEffect,useContext} from "react"
 import { AuthContext } from "../context/AuthContext"
+import axios from "axios"
 
 const Logo = ({ first, second }) => {
     const navigate = useNavigate()
     const {secure} = useContext(AuthContext)
     const [auth, setAuth] = secure 
+    
+
+    const fetchProfile = () => {
+         navigate("/profile")   
+    }
     
     useEffect(() => {
         if(localStorage.getItem("TOKEN")) setAuth(true)
@@ -64,8 +70,8 @@ const Logo = ({ first, second }) => {
                         </Tooltip>
 
                         <MenuList>
-                            <MenuItem>My Tickets</MenuItem>
-                            <MenuItem>My Profile</MenuItem>
+                            <MenuItem >My Tickets</MenuItem>
+                            <MenuItem onClick={fetchProfile}>My Profile</MenuItem>
                             <MenuItem>Friends</MenuItem>
                             <MenuItem onClick={handleLogout}>Logout</MenuItem>
                         </MenuList>

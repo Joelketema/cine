@@ -11,6 +11,8 @@ import Checkout from "./pages/Checkout"
 import Finish from "./pages/Finish"
 import AuthForm from "./pages/AuthForm"
 import VerifyPage from "./pages/VerifyPage"
+import ProfilePage from "./pages/ProfilePage"
+import ForgotPage from "./pages/ForgotPage"
 import { AuthProvider } from "./context/AuthContext"
 import { TicketProvider } from "./context/TicketContext"
 import {useState} from 'react'
@@ -44,6 +46,8 @@ function App() {
         <Route path="/" exact element={<Home />} />
         <Route path="/auth" exact element={<AuthForm />} />
         <Route path="/auth/:id/verify/:token" exact element={<VerifyPage />} />
+        <Route path="/auth/:id/forgot/:token" exact element={<ForgotPage />} />
+        <Route path="/profile"  element={<ProfilePage />} />
         <Route path="/Ticket/:eachid" element={<Ticket setMovieTitle={setMovieTitle} />} />
         <Route path="/Book" element={<Book movieTitle={movieTitle} />} />
         <Route path="/Book/snacks" element={<Snack movieTitle={movieTitle} />} />

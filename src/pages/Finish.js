@@ -1,18 +1,25 @@
 
 import Logo from "../components/Logo"
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import {useState,useEffect} from "react"
+import {useState,useEffect,useContext} from "react"
 import { Box, Text, Spinner } from "@chakra-ui/react"
 import { CircularProgress, CircularProgressLabel } from '@chakra-ui/react'
 import { CheckCircle } from "@mui/icons-material";
-
+import {TicketContext} from "../context/TicketContext"
 const Finish = ({ movieTitle }) => {
     
     const [load,setLoad] = useState(true)
     var [loading, setLoading] = useState(0)
+    const { seating, snackArray, cName } = useContext(TicketContext)
+    const [seats, setSeats] = seating
+    const [snacks, setSnacks] = snackArray
+    const [cinema,setCinema]= cName
+
 
     useEffect(() => {
-            
+    setSeats([])
+    setSnacks([])
+    setCinema("")
     setInterval(() => {
         setLoading(loading++)
     },100)

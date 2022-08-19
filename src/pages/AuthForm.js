@@ -1,9 +1,20 @@
 import { Box, Input, Button,Text,Image } from "@chakra-ui/react"
-import { useState,useEffect} from "react"
+import { useState,useEffect,useRef} from "react"
 import {Link,useNavigate} from "react-router-dom"
 // import logo from "../public/music.svg"
 import { Auth } from "../components/Auth"
+import axios from "axios";
 import { Toaster } from "react-hot-toast"
+import toast from "react-hot-toast"
+
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,useDisclosure,Tooltip
+} from '@chakra-ui/react'
 
 
 const AuthForm = () => {
@@ -64,7 +75,10 @@ const AuthForm = () => {
     }
 }
 
-function Login({setHaveAccount}) {
+function Login({ setHaveAccount }) {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+
     return (
         <Box display={"flex"} justifyContent={"center"} alignItems={"center"} textAlign={'center'} 
         w={"100%"}
@@ -72,15 +86,17 @@ function Login({setHaveAccount}) {
             shadow={"md"} 
             mt={50}
         >
-            <Box w={"fit-content"} bg={"white"} h={"80%"} p={10} rounded={"lg"}>
+            <Box w={"fit-content"} justifyContent={"center"} gap={2} alignItems={"center"} display={"flex"} flexDirection={"column"} bg={"white"} h={"80%"} p={10} rounded={"lg"}>
                 <Auth register={false} login={true} />
+                <Text fontSize={"small"} cursor={"pointer"} onClick={onOpen}>Forgot your password?</Text>
                 <Button bg={"black"} color={'white'} _hover={{backgroundColor:"black"}} mt={5} onClick={()=>setHaveAccount(false)}> Don't have an account?</Button> 
+           {isOpen && <ResetPassword  isOpen={isOpen} onOpen={onOpen} onClose={onClose} />}
             </Box>
     </Box> 
         
     )
 }
-
+ 
 
 function Signup({setHaveAccount}) {
     return (
@@ -97,6 +113,68 @@ function Signup({setHaveAccount}) {
     </Box> 
         
     )
+}
+
+function ResetPassword({ isOpen, onOpen, onClose }) {
+
+    const cancelRef = useRef()
+    const [findEmail, setFindEmail] = useState("")
+    
+    const handleFindEmail = e => {
+        setFindEmail(e.target.value)
+    }
+
+    const handleRequest = () => {
+        if (findEmail !== "") {
+            axios.post("http://localhost:3001/auth/forgotpassword", { "email": findEmail }).then(res => {
+                console.log(res)
+                res.status === 200 ? toast.success("A Password Reset Link has been sent to your Email") : toast.error("Invalid Email!")
+            })
+        }
+        else {
+            toast.error("Please Enter your Email")
+        }
+    }
+    return (
+        <>
+  
+          <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onClose}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                 Enter your Email To Reset Your Password!
+                </AlertDialogHeader>
+    
+                <AlertDialogBody>
+                        
+                                <Box display={"flex"} flexDirection={"column"} gap={3}>
+                                    <Input value={findEmail} placeholder={"Enter Your New Password"} onChange={handleFindEmail} type={"email"} />
+                                </Box>   
+                        
+                  
+  
+                </AlertDialogBody>
+    
+                        <AlertDialogFooter>
+                            
+                  <Button ref={cancelRef}onClick={onClose}>
+                    Cancel
+                    </Button> 
+                    
+                  <Button colorScheme={"green"} onClick={handleRequest} ml={3}>
+                    Reset My Password
+                  </Button>
+                    
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
+        </>
+      )
 }
 
 export default AuthForm

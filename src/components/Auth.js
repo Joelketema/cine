@@ -50,7 +50,7 @@ export function Auth({ register, login }) {
                     "password": password})
                 .then(response => {
                     
-                    if(response.data === "An Email Verification has been sent to your Email!")
+                    if(response.status === 200)
                         toast.success(response.data)
                     else
                         toast.error(response.data)
