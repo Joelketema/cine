@@ -13,6 +13,7 @@ import AuthForm from "./pages/AuthForm"
 import VerifyPage from "./pages/VerifyPage"
 import ProfilePage from "./pages/ProfilePage"
 import ForgotPage from "./pages/ForgotPage"
+import MyTicket from "./pages/MyTicket"
 import { AuthProvider } from "./context/AuthContext"
 import { TicketProvider } from "./context/TicketContext"
 import {useState} from 'react'
@@ -48,6 +49,7 @@ function App() {
         <Route path="/auth/:id/verify/:token" exact element={<VerifyPage />} />
         <Route path="/auth/:id/forgot/:token" exact element={<ForgotPage />} />
         <Route path="/profile"  element={<ProfilePage />} />
+        <Route path="/tickets"  element={<MyTicket />} />
         <Route path="/Ticket/:eachid" element={<Ticket setMovieTitle={setMovieTitle} />} />
         <Route path="/Book" element={<Book movieTitle={movieTitle} />} />
         <Route path="/Book/snacks" element={<Snack movieTitle={movieTitle} />} />

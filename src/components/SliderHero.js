@@ -13,8 +13,6 @@ const SliderHero = ({ movie, loading, setLoading }) => {
     const [onemovie, setOneMovie] = useState([{}])
     const [title, setTitle] = useState("")
     
-
-
  
     const options = {
         method: 'GET',
@@ -31,9 +29,7 @@ const SliderHero = ({ movie, loading, setLoading }) => {
         axios.request(options).then(response => {
             setOneMovie(response.data.results[0])
             setTitle(response.data.results[0].titleText?.text)
-            // setMovieTitle(response.data.results[0].titleText?.text)
-            setLoading(false)
-
+    
         })
     }, [movie])
 

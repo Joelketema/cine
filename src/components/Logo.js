@@ -70,9 +70,9 @@ const Logo = ({ first, second }) => {
                         </Tooltip>
 
                         <MenuList>
-                            <MenuItem >My Tickets</MenuItem>
+                            <MenuItem><Link to={"/"}>Home</Link></MenuItem>
+                            <MenuItem><Link to={"/tickets"}> My Tickets </Link></MenuItem>
                             <MenuItem onClick={fetchProfile}>My Profile</MenuItem>
-                            <MenuItem>Friends</MenuItem>
                             <MenuItem onClick={handleLogout}>Logout</MenuItem>
                         </MenuList>
                     </Menu>

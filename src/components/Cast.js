@@ -23,7 +23,7 @@ const Cast = ({title,genre}) => {
 
             axios.request(options)
                 .then(response => {
-                    setCast(prev => [...prev, response.data.results[0]])
+                    setCast(prev => [...prev, response.data?.results[0]])
                     setLoading(false)
                 })
                 .catch(err => console.error(err));
