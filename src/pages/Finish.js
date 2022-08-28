@@ -22,7 +22,7 @@ const Finish = ({ movieTitle }) => {
     setCinema("")
     setInterval(() => {
         setLoading(loading+=5)
-    },500)
+    },1000)
     }, [1])
 
     if (load)
