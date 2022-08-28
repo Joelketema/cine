@@ -92,7 +92,7 @@ function AlertDialogExample({cinema,time,alert,setAlert, onOpen, onClose }) {
         
             if (cinema !== ""&& time!=="") {
   
-                axios.patch('http://localhost:3001/api/addToCart', { "cinemaName": cinema , "showtime" :time }
+                axios.patch('https://server-cproject.vercel.app/api/addToCart', { "cinemaName": cinema , "showtime" :time }
                     , {
                         headers: {
                 
