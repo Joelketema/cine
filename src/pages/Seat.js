@@ -24,7 +24,7 @@ import Header from "../components/Header"
 import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 import Seating from "../components/Seating"
 import SeatingLayout from "../components/SeatingLayout"
-import {Link,useNavigate} from "react-router-dom"
+import {Link,useNavigate,Navigate} from "react-router-dom"
 import { useContext,useEffect,useState } from "react"
 import { TicketContext } from "../context/TicketContext"
 import { AuthContext } from "../context/AuthContext"
@@ -64,20 +64,25 @@ const Seat = ({ }) => {
 
 
     const items = ["Price", "2D", "3D", "Location"]
-    
+  if (localStorage.getItem("TOKEN")) {
     return (
-        <>
-            <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Pick a Seat"}  />  
-            <SeatingLayout />
-            <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
-          <Button position={"relative"} onClick={handleRequest}  mb={10} right={0} mr={5} alignSelf={"flex-end"} mt={4} bg={"Black"} color={"white"}>
-                Next
-                </Button>
-                {open && <BasicUsage  isOpen={open} onOpen={onOpen} onClose={onClose} />}
-            </Box>
-        </>
+      <>
+        <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Pick a Seat"} />
+        <SeatingLayout />
+        <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+          <Button position={"relative"} onClick={handleRequest} mb={10} right={0} mr={5} alignSelf={"flex-end"} mt={4} bg={"Black"} color={"white"}>
+            Next
+          </Button>
+          {open && <BasicUsage isOpen={open} onOpen={onOpen} onClose={onClose} />}
+        </Box>
+      </>
     )
-
+  }
+  else
+  return (
+      <Navigate to={"/"} />    
+  
+  )
 }
 
 function BasicUsage({isOpen, onOpen, onClose,data }) {

@@ -53,13 +53,17 @@ const Snack = ({  }) => {
 
       }
     
+  const handleSkip = () => {
+    navigate("/Book/checkout")
+  }
+  
     return (
         <Box p={3} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
             {/* <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Pick Snacks"} />   */}
             <Text fontSize={["17px",null,"23px"]} color={"#213f87"} fontWeight={"medium"} pb={5}>Pick Snacks</Text>
             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                 <PickSnack goods={goods} />
-                <Button mr={5} onClick={handleRequest} alignSelf={"flex-end"} mt={4} bg={"Black"} color={"white"}>{snacks.length === 0 ? "Skip" : "Next"}</Button>
+                <Button mr={5} onClick={snacks.length === 0 ? handleSkip :handleRequest} alignSelf={"flex-end"} mt={4} bg={"Black"} color={"white"}>{snacks.length === 0 ? "Skip" : "Next"}</Button>
             </Box>
 
         </Box>

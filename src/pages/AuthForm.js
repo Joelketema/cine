@@ -152,7 +152,7 @@ function ResetPassword({ isOpen, onOpen, onClose }) {
                 <AlertDialogBody>
                         
                                 <Box display={"flex"} flexDirection={"column"} gap={3}>
-                                    <Input value={findEmail} placeholder={"Enter Your New Password"} onChange={handleFindEmail} type={"email"} />
+                                    <Input value={findEmail} placeholder={"Enter Your Email"} onChange={handleFindEmail} type={"email"} />
                                 </Box>   
                         
                   

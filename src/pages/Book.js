@@ -15,7 +15,8 @@ const Book = ({  }) => {
 
     const items = ["Price", "2D", "3D", "Location"]
     
-    // if (auth) {
+    
+    if (localStorage.getItem("TOKEN")) {
         return (
             <>
                 <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Pick Show Time"} />
@@ -24,8 +25,13 @@ const Book = ({  }) => {
 
             </>
         )
-    // }
-    // <Navigate to={"/"} />
+    }
+    else
+        return (
+            <Navigate to={"/"} />    
+        
+        )
+    
 
 }
 

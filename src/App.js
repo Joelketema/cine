@@ -18,6 +18,7 @@ import { AuthProvider } from "./context/AuthContext"
 import { TicketProvider } from "./context/TicketContext"
 import {useState} from 'react'
 import toast, { Toaster } from 'react-hot-toast'
+import { Navigate } from 'react-router-dom'
 
 import "./App.css"
 
@@ -55,7 +56,8 @@ function App() {
         <Route path="/Book/snacks" element={<Snack movieTitle={movieTitle} />} />
         <Route path="/Book/seat" element={<Seat movieTitle={movieTitle} />} />
         <Route path="/Book/checkout" element={<Checkout movieTitle={movieTitle} />} />
-        <Route path="/Book/finish" element={<Finish movieTitle={movieTitle} />} />
+          <Route path="/Book/finish" element={<Finish movieTitle={movieTitle} />} />
+          <Route path="*" element={<Navigate to='/' replace />} />
     </Routes>
     <Footer/>
     </AuthProvider>
