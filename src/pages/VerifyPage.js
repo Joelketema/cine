@@ -3,6 +3,7 @@ import { Box, Text, Button,Spinner} from "@chakra-ui/react"
 import axios from "axios"
 import { Link,useParams,useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 
 export default function VerifyPage({ setHaveAccount }) {
     const [valid, setValid] = useState(false)
@@ -14,6 +15,10 @@ export default function VerifyPage({ setHaveAccount }) {
             response.data === "verified" ? setValid(true) : setValid(false)
 
             setLoading(false)
+        }).catch(e => {
+            console.log(e)
+            toast.error("Sorry an Expected Error Occured!")
+
         })
     }, [valid])
     

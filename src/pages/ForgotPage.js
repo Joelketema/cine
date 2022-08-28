@@ -37,6 +37,10 @@ export default function ForgotPage() {
                 toast.error("Sorry an unexpected Error Occured!")
             }
             
+        }).catch(e => {
+            console.log(e)
+            toast.error("Sorry an Expected Error Occured!")
+
         })
         
     }
@@ -47,6 +51,10 @@ export default function ForgotPage() {
         axios.get(`https://server-cproject.vercel.app/auth/${params.id}/forgot/${params.token}`).then(response => {
             response.status === 200 ? setValid(true) : setValid(false)
             setLoading(false)
+        }).catch(e => {
+            console.log(e)
+            toast.error("Sorry an Expected Error Occured!")
+
         })
     }, [valid])
     
