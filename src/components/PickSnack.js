@@ -3,7 +3,9 @@ import { useRef, useState, useEffect,useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { Box, Text, Button, Image } from "@chakra-ui/react"
 import { Link, useNavigate } from "react-router-dom"
-import axios from "axios"
+import { Select } from '@chakra-ui/react'
+import toast from 'react-hot-toast'
+
 import {
     AlertDialog,
     AlertDialogBody,
@@ -13,6 +15,14 @@ import {
     AlertDialogOverlay,useDisclosure,Tooltip
 } from '@chakra-ui/react'
 
+import {
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
+} from '@chakra-ui/react'
+  
 import {
     Modal,
     ModalOverlay,
@@ -25,47 +35,84 @@ import {
 
 import { TicketContext } from '../context/TicketContext' 
   
-const PickItem = ({ goods }) => {
+const PickSnack= ({ goods }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const[selectedValue,setSelectedValue] = useState("")
+  const[selectedAmount,setSelectedAmount] = useState("")
 
-  const { show,cName } = useContext(TicketContext)
+  const { show,cName,snackArray } = useContext(TicketContext)
   const [time, setTime] = show
   
   const [cinema, setCinema] = cName
+  
+  const [snacks, setSnacks] = snackArray
   
   const[alert,setAlert] = useState(false)
     
   const [data, setData] = useState({})
   
+  const handleSelectedValue = (e) => {
+    console.log(e.target.value)
+    if(e.target.value!=="")
+    setSelectedValue(e.target.value)
+  }
+
+  const handleSelectedAmount = (e) => {
+    console.log(e)
+    setSelectedAmount(e)
+  }
+
+
+  
     
     return (
-    <Box bg={"white"} display="flex" flexDirection={{base:"column",md:"row"}} flexWrap={"wrap"} justifyContent={"space-between"}   p={3} height={"max-content"}>
+    
+    <Box bg={"white"} display="flex" flexDirection={{base:"column",md:"column"}}  justifyContent={"space-between"}   p={3} height={"400px"} overflowY={"scroll"}>
         {
             goods.map(m => {
                 return (
-            <Box display="flex" gap={6} justifyContent={"space-between"}   p={3} height={"max-content"} borderRadius={10} mt={5}>
+            <Box display="flex"  bg={'green'} minHeight={"50%"} maxHeight={"50%"} boxShadow={"md"}  gap={6} justifyContent={"space-between"}   p={3} height={"max-content"} borderRadius={10} mt={5}>
                       <Tooltip label='Click For Info'>
                         <Image onClick={() => {
                             setData(m)
                             onOpen()
                         }} src={m.image} boxSize='70px' boxShadow={"lg"} objectFit='cover' borderRadius={"full"} alt="movie poster" srcset="" />
             </Tooltip>
-            <Box bg={"white"} minWidth={"5%"} maxWidth={"100%"} p={3} gap={5}>    
-            {
-                            goods[0].showtime?.map(s => {
-                                return (
-                                  <Button onClick={
+            <Box bg={"white"} display={"flex"} flexDirection={"column"} gap={2} minWidth={"5%"} maxWidth={"100%"} p={3}>    
+       
+                                <Box display={"flex"} flexDirection={"column"} gap={3}>
+                                <Select placeholder='Select Size' onChange={handleSelectedValue} >
+                                        <option value='small'>Small</option>
+                                        <option value='large'>large</option>
+                                        <option value='option3'>Option 3</option>
+                                </Select>
+                                        
+                                <NumberInput defaultValue={0} min={0} max={5} onChange={handleSelectedAmount}>
+                                    <NumberInputField />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                               
+                            </Box>   
+                            
+                            <Box>
+                                <Button onClick={
                                     () => {
-                                      setAlert(true)
-                                      setTime(s)
-                                      setCinema(m.Name)
-                                   
-                                    }
-                                    } mb={2} mr={2} bg={"black"} color={"white"}>{s}</Button> 
-                                   
-                       )
-                   })         
-            }
+                                      setSnacks(prev => [...prev, {
+                                        "snackName": m.Name,
+                                        "snackProp": selectedValue,
+                                        "amount": selectedAmount,
+                                        "price" : m.price
+                                
+                                      }
+                                       
+                                      ])
+                                      toast.success(`${m.Name} Added!`)
+                                    }} mb={2} mr={2} bg={"black"} color={"white"}>Add Snack</Button> 
+                        </Box>
+
 
             </Box>
         </Box> 
@@ -75,7 +122,7 @@ const PickItem = ({ goods }) => {
         {alert ? <AlertDialogExample cinema={cinema} time={time} alert= {alert} setAlert={setAlert} onOpen={onOpen} onClose={onClose} /> : null}
         {isOpen && <BasicUsage data={data} isOpen = {isOpen} onOpen={onOpen} onClose={onClose} />}
        
-       </Box>
+            </Box>
     )
 }
 
@@ -86,27 +133,9 @@ function AlertDialogExample({cinema,time,alert,setAlert, onOpen, onClose }) {
     const [accept, setAccept] = term
 
 
-    const navigate = useNavigate()
-
-    const handleRequest = () => {
-        
-            if (cinema !== ""&& time!=="") {
+ 
   
-                axios.patch('http://localhost:3001/api/addToCart', { "cinemaName": cinema , "showtime" :time }
-                    , {
-                        headers: {
-                
-                            autherize: localStorage.getItem("TOKEN")
-                        }
-                    }).then(res => {
-                      setAccept(true)
-                      navigate("/Book/seat")
-
-                    }).catch(e => console.log(e))
-            }
-        
-    }
-  
+  const navigate = useNavigate()
 
     return (
       <>
@@ -136,7 +165,11 @@ function AlertDialogExample({cinema,time,alert,setAlert, onOpen, onClose }) {
                 }}>
                   Cancel
                 </Button>
-                <Button colorScheme='green' onClick={handleRequest} ml={3}>
+                <Button colorScheme='green' onClick={() => {
+                  setAccept(true)
+                  navigate("/Book/seat")
+
+                }} ml={3}>
                   Accept
                 </Button>
               </AlertDialogFooter>
@@ -174,4 +207,4 @@ function BasicUsage({isOpen, onOpen, onClose,data }) {
       </>
     )
   }
-export default PickItem
+export default PickSnack

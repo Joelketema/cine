@@ -6,7 +6,7 @@
  const movies = [
    {
      name: 'Avenger',
-     price: 10,
+     price: 80,
      occupied: [20, 21, 30, 1, 2, 8],
    },
    {
@@ -26,7 +26,7 @@
    },
  ]
  
- const seats = Array.from({ length: 8 * 8 }, (_, i) => i)
+ const seats = Array.from({ length: 7 * 7}, (_, i) => i)
  
  export default function Seating() {
    const [selectedMovie, setSelectedMovie] = useState(movies[0])
@@ -34,13 +34,7 @@
  
    return (
      <div className="App">
-       <Movies
-         movie={selectedMovie}
-         onChange={movie => {
-           setSelectedSeats([])
-           setSelectedMovie(movie)
-         }}
-       />
+ 
        <ShowCase />
        <Cinema
          movie={selectedMovie}
@@ -83,7 +77,8 @@
    )
  }
  
- function Cinema({ movie, selectedSeats, onSelectedSeatsChange }) {
+function Cinema({ movie, selectedSeats, onSelectedSeatsChange }) {
+   
    function handleSelectedState(seat) {
      const isSelected = selectedSeats.includes(seat)
      if (isSelected) {

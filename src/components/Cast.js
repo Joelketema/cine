@@ -4,38 +4,40 @@ import { Splide, SplideSlide} from '@splidejs/react-splide';
 import '@splidejs/splide/dist/css/splide.min.css';
 import { useState, useEffect } from 'react'
 import { Link } from "react-router-dom";
+import axios from "axios"
 import { Spinner } from '@chakra-ui/react'
 
-const Slider = ({title,genre}) => {
-    const [movies, setMovies] = useState([{}])
-    const [loading,setLoading] = useState(true)
+const Cast = ({title,genre}) => {
+    const [cast, setCast] = useState([])
+    const [loading, setLoading] = useState(true)
+    console.log("Cast")
     const options = {
         method: 'GET',
+        url: 'https://random-user.p.rapidapi.com/getuser',
         headers: {
-            'X-RapidAPI-Key': '30f8f07841msh32c3146f1e35d96p1df6c8jsn66be063d993c',
-            'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+          'X-RapidAPI-Key': '30f8f07841msh32c3146f1e35d96p1df6c8jsn66be063d993c',
+          'X-RapidAPI-Host': 'random-user.p.rapidapi.com'
         }
-    };
-    
+      };
     useEffect(() => {
-        fetch(`https://moviesdatabase.p.rapidapi.com/titles?info=mini_info&limit=10&page=1&titleType=movie&genre=${genre}&year=2020`, options)
-        .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                setMovies(response.results)
-                setLoading(false)
-            })
-        .catch(err => console.error(err));
+
+            axios.request(options)
+                .then(response => {
+                    setCast(prev => [...prev, response.data?.results[0]])
+                    setLoading(false)
+                })
+                .catch(err => console.error(err));
     }, [1])
     
-    if (loading) return (
-        <Box flexDirection={"column"} mt={8} p={3}>
-        <Text fontSize={"lg"} pb={5}>{title ? title : "Now Showing"}</Text>
-            <Box display={"flex"} justifyContent={"center"} alignItems={"center"} textAlign={"center"}>
-              <Spinner color={"#213f87"} />
-            </Box>  
-        </Box>
-    )
+    console.log(cast)
+    // if (loading) return (
+    //     <Box flexDirection={"column"} mt={8} p={3}>
+    //     <Text fontSize={"lg"} pb={5}>{title ? title : "Now Showing"}</Text>
+    //         <Box display={"flex"} justifyContent={"center"} alignItems={"center"} textAlign={"center"}>
+    //           <Spinner color={"#213f87"} />
+    //         </Box>  
+    //     </Box>
+    // )
     
     return (
         <Box display={"flex"} justifyContent={"center"} alignItems={"center"}  flexDirection={"column"} mt={8} p={3}>
@@ -66,14 +68,14 @@ const Slider = ({title,genre}) => {
              
             }} className='splide'>
                 {
-                    movies?.map((m) => {
+                    cast?.map((m) => {
                         return (
                             <SplideSlide className='ss'>
                             <Link to={`/Ticket/${m.titleText?.text}`}>
                             <Box bg={"#213f87"} textAlign={"center"} rounded={"md"} display={"flex"}
-                                flexDirection={{base:"column",md:"row"}}
+                                flexDirection={"column"}
                                 justifyContent={"space-around"} alignItems={"center"} p={3}>
-                                <Image src={m.primaryImage?.url}
+                                    <Image src={m.picture?.large}
                                 boxSize={{
                                     base: '150px',
                                     md: "300px"
@@ -83,8 +85,8 @@ const Slider = ({title,genre}) => {
                                 }}
                                             objectFit='cover' borderRadius={10} alt="movie poster" srcset="" />
                                         <Box display={"flex"} flexDirection={"column"} gap={3}>
-                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>{m.titleText?.text}</Text>
-                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>29days Until Release</Text>
+                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>{`${m.name?.first} " "${m.name?.last}`} </Text>
+                
                                         </Box>    
                             </Box>
                             </Link>
@@ -99,4 +101,4 @@ const Slider = ({title,genre}) => {
     )
 }
 
-export default Slider
+export default Cast

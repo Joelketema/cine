@@ -3,4 +3,6 @@
   src: url(http://www.princexml.com/fonts/larabie/kimberle.ttf) format("truetype");
 }
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-body { font-family: "Roboto", sans-serif }
+body { font-family: "Roboto", sans-serif;
+overflow-x: hidden;
+}

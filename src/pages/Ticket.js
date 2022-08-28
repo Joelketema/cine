@@ -2,19 +2,29 @@ import Header from "../components/Header"
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from 'react'
+import { useState, useEffect,useContext } from 'react'
 import axios from "axios";
 import Hero from "../components/Hero";
 import Slider from "../components/Slider"
 import Plot from "../components/Plot"
+import Cast from "../components/Cast"
 import Discussion from "../components/Discussion"
+import { AuthContext } from "../context/AuthContext";
+import { TicketContext } from "../context/TicketContext";
 
-const Ticket = ({ query,setMovieTitle }) => {
+const Ticket = ({ query}) => {
     
     const [movie, setMovie] = useState([{}])
     const [title, setTitle] = useState("")
     const [loading, setLoading] = useState(true);
+    const {movietitle} = useContext(AuthContext)
+    const [selectedmovie, setSelectedMovie] = movietitle
+    const { item } = useContext(TicketContext)
+    const [ticket, setTicket] = item
+    
+    
 
+ 
     const name = useParams()
    
     const options = {
@@ -31,8 +41,8 @@ const Ticket = ({ query,setMovieTitle }) => {
        
         axios.request(options).then(response => {
             setMovie(response.data.results[0])
-            setTitle(response.data.results[0].titleText?.text)
-            setMovieTitle(response.data.results[0].titleText?.text)
+            setSelectedMovie(response.data.results[0].titleText?.text)
+           
             setLoading(false)
 
         })
@@ -41,9 +51,9 @@ const Ticket = ({ query,setMovieTitle }) => {
 
     return (
         <>
-            <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Starting Up"} title={title}  />
+            <Header icon={<ArrowCircleLeftRoundedIcon />} step={"Starting Up"}   />
             <Hero movie={movie} loading={loading} setLodaing={setLoading} />
-            <Slider title={"Cast"} genre={"Romance"} />
+            <Cast title={"Cast"} genre={"Romance"} />
             <Plot plot={movie.plot?.plotText} />
             <Discussion title={"Discussion"}/>
         </>
