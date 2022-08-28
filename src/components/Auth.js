@@ -43,7 +43,7 @@ export function Auth({ register, login }) {
         if (!login) {
         
             
-            axios.post("http://localhost:3001/auth/register",
+            axios.post("https://server-cproject.vercel.app/auth/register",
                     {
                     "Name": name,
                     "Email": email,
@@ -60,7 +60,7 @@ export function Auth({ register, login }) {
 
         else {
      
-            axios.post("http://localhost:3001/auth/login", {
+            axios.post("https://server-cproject.vercel.app/auth/login", {
                 "Email": email,
                 "password": password
             }).then(res => {
