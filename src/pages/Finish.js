@@ -21,8 +21,8 @@ const Finish = ({ movieTitle }) => {
     setSnacks([])
     setCinema("")
     setInterval(() => {
-        setLoading(loading++)
-    },100)
+        setLoading(loading+=5)
+    },500)
     }, [1])
 
     if (load)
