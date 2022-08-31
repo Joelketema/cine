@@ -11,6 +11,7 @@ import Cast from "../components/Cast"
 import Discussion from "../components/Discussion"
 import { AuthContext } from "../context/AuthContext";
 import { TicketContext } from "../context/TicketContext";
+import toast from "react-hot-toast"
 
 const Ticket = ({ query}) => {
     
@@ -45,6 +46,9 @@ const Ticket = ({ query}) => {
            
             setLoading(false)
 
+        }).catch(e => {
+            console.log(e)
+            toast.error(e.message)
         })
     }, [1])
     

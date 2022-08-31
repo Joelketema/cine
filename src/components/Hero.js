@@ -6,6 +6,7 @@ import { Link,useNavigate } from 'react-router-dom'
 import { useContext,useEffect,useState } from "react"
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios"
+import toast from "react-hot-toast"
 import "../assets/hero.css"
 
 const Hero = ({ movie,loading,setLoading }) => {
@@ -31,7 +32,10 @@ const Hero = ({ movie,loading,setLoading }) => {
                     }).then(res => {
 
                        navigate(`/Book`) 
-                    }).catch(e => console.log(e))
+                    }).catch(e => {
+                        console.log(e)
+                        toast.error(e.message)
+                    })
             }
         }
         else navigate("/auth")

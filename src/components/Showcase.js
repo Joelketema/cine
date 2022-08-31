@@ -74,7 +74,7 @@ function CustomBox({ flag,item }) {
             w={{base:"100%",md:"100%"}}
             flexDirection={flag ? { base: "column", md: "row" } : { base: "column", md: "row-reverse" }} p={{ base: 5, md: 15 }}>
             <Box>
-                <Image alt={"svgs"} rounded={"full"} boxSize={{base:"150px",md:"250px"}} src={item.image} />
+                <Image alt={"svgs"} rounded={"md"} boxSize={{base:"150px",md:"250px"}} src={item.image} />
             </Box>
 
             <Box>

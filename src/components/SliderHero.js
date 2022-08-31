@@ -5,6 +5,7 @@ import { Spinner } from '@chakra-ui/react'
 import { Link,useNavigate } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
 import { AuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast"
 import axios from "axios";
 // import "../assets/hero.css"
 
@@ -30,6 +31,9 @@ const SliderHero = ({ movie, loading, setLoading }) => {
             setOneMovie(response.data.results[0])
             setTitle(response.data.results[0].titleText?.text)
     
+        }).catch(e => {
+            console.log(e)
+            toast.error("Sorry an error occured! retry in a few seconds")
         })
     }, [movie])
 

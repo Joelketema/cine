@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import { Link } from "react-router-dom";
 import { Spinner } from '@chakra-ui/react'
 
-const Slider = ({title,genre}) => {
+const Slider = ({title,genre,clickable}) => {
     const [movies, setMovies] = useState([{}])
     const [loading,setLoading] = useState(true)
     const options = {
@@ -30,7 +30,7 @@ const Slider = ({title,genre}) => {
     
     if (loading) return (
         <Box flexDirection={"column"} mt={8} p={3}>
-        <Text fontSize={"lg"} pb={5}>{title ? title : "Now Showing"}</Text>
+        
             <Box display={"flex"} justifyContent={"center"} alignItems={"center"} textAlign={"center"}>
               <Spinner color={"#213f87"} />
             </Box>  
@@ -69,25 +69,42 @@ const Slider = ({title,genre}) => {
                     movies?.map((m) => {
                         return (
                             <SplideSlide className='ss'>
-                            <Link to={`/Ticket/${m.titleText?.text}`}>
-                            <Box bg={"#213f87"} textAlign={"center"} rounded={"md"} display={"flex"}
-                                flexDirection={{base:"column",md:"row"}}
-                                justifyContent={"space-around"} alignItems={"center"} p={3}>
-                                <Image src={m.primaryImage?.url}
-                                boxSize={{
-                                    base: '150px',
-                                    md: "300px"
-                                }}
-                                h={{
-                                    md:"350px"
-                                }}
+                                {clickable ? <Link to={`/Ticket/${m.titleText?.text}`}>
+                                    <Box bg={"#213f87"} textAlign={"center"} rounded={"md"} display={"flex"}
+                                        flexDirection={{ base: "column", md: "row" }}
+                                        justifyContent={"space-around"} alignItems={"center"} p={3}>
+                                        <Image src={m.primaryImage?.url}
+                                            boxSize={{
+                                                base: '150px',
+                                                md: "300px"
+                                            }}
+                                            h={{
+                                                md: "350px"
+                                            }}
                                             objectFit='cover' borderRadius={10} alt="movie poster" srcset="" />
                                         <Box display={"flex"} flexDirection={"column"} gap={3}>
                                             <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>{m.titleText?.text}</Text>
                                             <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>29days Until Release</Text>
-                                        </Box>    
-                            </Box>
-                            </Link>
+                                        </Box>
+                                    </Box>
+                                </Link> :
+                                    <Box bg={"#213f87"} textAlign={"center"} rounded={"md"} display={"flex"}
+                                        flexDirection={{ base: "column", md: "row" }}
+                                        justifyContent={"space-around"} alignItems={"center"} p={3}>
+                                        <Image src={m.primaryImage?.url}
+                                            boxSize={{
+                                                base: '150px',
+                                                md: "300px"
+                                            }}
+                                            h={{
+                                                md: "350px"
+                                            }}
+                                            objectFit='cover' borderRadius={10} alt="movie poster" srcset="" />
+                                        <Box display={"flex"} flexDirection={"column"} gap={3}>
+                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>{m.titleText?.text}</Text>
+                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>29days Until Release</Text>
+                                        </Box>
+                                    </Box>}
                     </SplideSlide>
                         )
                     })

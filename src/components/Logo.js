@@ -37,7 +37,7 @@ const Logo = ({ first, second }) => {
     
     
     return (
-        <Box bgGradient='linear(290deg, rgba(0, 0, 0, 1) 0%, rgba(33, 63, 135, 1) 51%, rgba(33, 63, 135, 1) 100%)'
+        <Box position={"sticky"} top={0} zIndex={2} bgGradient='linear(290deg, rgba(0, 0, 0, 1) 0%, rgba(33, 63, 135, 1) 51%, rgba(33, 63, 135, 1) 100%)'
             display={"flex"} justifyContent={"space-between"} alignItems={"center"} p={2} mb={5}>
         <Link to={"/"} style={{display:"flex",padding:"1%",justifyContent:"center",alignItems:"center"}}>
             <Box bg={"black"}  color={"white"} boxShadow={'lg'} h={""} textAlign={"center"} p={3} borderRadius={"50%"}>
