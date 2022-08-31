@@ -26,7 +26,7 @@ const Home = () => {
                       },
                         }} />
             <Showcase />
-            <Slider title={"Coming Soon!"} genre={"Romance"} />
+            <Slider title={"Coming Soon!"} genre={"Romance"} clickable={false} />
             <Review/>
         </Flex>
 
