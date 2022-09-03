@@ -11,19 +11,25 @@ import "../assets/hero.css"
 
 const Hero = ({ movie,loading,setLoading }) => {
 
+    const [base, setBase] = useState("https://image.tmdb.org/t/p/w500")
     const {secure} = useContext(AuthContext)
     const [auth, setAuth] = secure
     
     const {movietitle} = useContext(AuthContext)
     const [selectedmovie, setSelectedMovie] = movietitle
 
+    
     const navigate = useNavigate()
+
+    console.log(movie)
+
+    
 
     const handleRequest = () => {
         if (auth) {
             if (selectedmovie !== "") {
 
-                axios.post('https://server-cproject.vercel.app/api/initializeCart', { "movieName": selectedmovie }
+                axios.post('https://server-cproject.vercel.app /api/initializeCart', { "movieName": selectedmovie }
                     , {
                         headers: {
                 
@@ -42,10 +48,16 @@ const Hero = ({ movie,loading,setLoading }) => {
         
     }
 
-    function formatSeconds(seconds) {
-        var date = new Date(1970,0,1);
-        date.setSeconds(seconds);
-        return date.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+    function formatSeconds(minute) {
+        minute = Number(minute);
+        var h = Math.floor(minute / 3600);
+        var m = Math.floor(minute % 3600 / 60);
+        var s = Math.floor(minute % 3600 % 60);
+    
+        var hourDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+        var minuteDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+        var secondDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+        return hourDisplay + minuteDisplay + secondDisplay;
     }
 
     if (loading) return (
@@ -68,11 +80,11 @@ const Hero = ({ movie,loading,setLoading }) => {
         
 
         <Box w={"100%"} display={"flex"} justifyContent={"space-around"} alignItems={"center"} position={"relative"} zIndex={1}  gap={5}  >
-            <Image src={movie.primaryImage?.url} boxSize={{
+            <Image src={base + movie.poster_path} boxSize={{
                 base: '150px',
                 md: "300px",
                 lg:"500px"
-            }} height={"200px"} objectFit='cover' borderRadius={10} alt="movie poster" />
+            }} height={"200px"} objectFit='cover' borderRadius={10} alt={`${movie.title} movie poster`} />
             <Box color={"white"}
                 minHeight={{
                     base: "300px",
@@ -90,14 +102,15 @@ const Hero = ({ movie,loading,setLoading }) => {
                     base: "max-content",
                     md:"300px"
                 }}
-                display={"flex"} flexDirection={"column"} justifyContent={"space-around"} alignItems={"center"}
+                display={"flex"} flexDirection={"column"} justifyContent={"space-around"} alignItems={"flex-start"}
                 
                 bgGradient='linear(290deg, rgba(0, 0, 0, 1) 0%, rgba(33, 63, 135, 1) 51%, rgba(33, 63, 135, 1) 100%)'
-                p={3} rounded={"md"}>
-                <Text noOfLines={[0,1,2]}>Title : {movie.titleText?.text}</Text>
-                <Text>Duration : {formatSeconds(movie.runtime?.seconds)}</Text>
-                <Text>Rating : {movie.ratingsSummary?.aggregateRating}/10</Text>
-                <Text>Genre : {movie.genres?.genres[0].text + ","+ movie.genres?.genres[1].text}</Text>
+                p={5} rounded={"md"}>
+                <Text noOfLines={[0,1,2]}>Title : {movie.title}</Text>
+                <Text>Duration : {formatSeconds(movie.runtime)}</Text>
+                <Text>Rating : {(movie.vote_average).toFixed(1)}/10</Text>
+                <Text>Genres: {movie.genres[0].name + "," + movie.genres[1].name}...</Text>
+                <Text w={"100%"}>"{movie.tagline}"</Text>
                 <Button onClick={handleRequest} variant='outline' _hover={{backgroundColor:"#213f87"}} rightIcon={<ConfirmationNumberRoundedIcon />}>{auth ? "Book Your Ticket" : "Sign up to Book"}</Button>
             </Box>
         </Box>

@@ -7,27 +7,35 @@ import { Link } from "react-router-dom";
 import axios from "axios"
 import { Spinner } from '@chakra-ui/react'
 
-const Cast = ({title,genre}) => {
+const Cast = ({title,movie}) => {
     const [cast, setCast] = useState([])
     const [loading, setLoading] = useState(true)
-    console.log("Cast")
+    const [base, setBase] = useState("https://image.tmdb.org/t/p/w500")
+    console.log("Cast movie")
+
+      console.log(movie.id)
     const options = {
         method: 'GET',
-        url: 'https://random-user.p.rapidapi.com/getuser',
-        headers: {
-          'X-RapidAPI-Key': '30f8f07841msh32c3146f1e35d96p1df6c8jsn66be063d993c',
-          'X-RapidAPI-Host': 'random-user.p.rapidapi.com'
-        }
-      };
-    useEffect(() => {
+        url: `https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`,
 
-            axios.request(options)
-                .then(response => {
-                    setCast(prev => [...prev, response.data?.results[0]])
-                    setLoading(false)
-                })
-                .catch(err => console.error(err));
-    }, [1])
+    };
+
+    console.log(options.url)
+    
+    useEffect(() => {
+       
+        axios.request(options).then(response => {
+            console.log("HERE CAST")
+            console.log(response.data.cast)
+            setCast(response.data.cast)
+          
+            setLoading(false)
+
+        }).catch(e => {
+            console.log(e)
+            // toast.error(e.message)
+        })
+    }, [movie])
     
     console.log(cast)
     // if (loading) return (
@@ -71,11 +79,11 @@ const Cast = ({title,genre}) => {
                     cast?.map((m) => {
                         return (
                             <SplideSlide className='ss'>
-                            <Link to={`/Ticket/${m.titleText?.text}`}>
-                            <Box bg={"#213f87"} textAlign={"center"} rounded={"md"} display={"flex"}
+                           
+                            <Box bg={"#213f87"} textAlign={"center"} rounded={"md"} display={"flex"} minH={{base:"40vh",md:"80vh"}} maxH={{base:"40vh",md:"80vh"}}
                                 flexDirection={"column"}
                                 justifyContent={"space-around"} alignItems={"center"} p={3}>
-                                    <Image src={m.picture?.large}
+                                    <Image src={base + m.profile_path} alt={m.original_name}
                                 boxSize={{
                                     base: '150px',
                                     md: "300px"
@@ -83,13 +91,14 @@ const Cast = ({title,genre}) => {
                                 h={{
                                     md:"350px"
                                 }}
-                                            objectFit='cover' borderRadius={10} alt="movie poster" srcset="" />
+                                            objectFit='cover' borderRadius={10} srcset="" />
                                         <Box display={"flex"} flexDirection={"column"} gap={3}>
-                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>{`${m.name?.first} " "${m.name?.last}`} </Text>
+                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1]}>{`${m.original_name}`}</Text>
+                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1]}>{`Plays: ${m.character}`}</Text>
                 
                                         </Box>    
                             </Box>
-                            </Link>
+                            
                     </SplideSlide>
                         )
                     })
