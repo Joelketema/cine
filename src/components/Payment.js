@@ -24,7 +24,7 @@ const Payment = () => {
     const [cancel,setCancel] = useState(false)
 
     useEffect(() => {
-        axios.get("https://server-cproject.vercel.app/api/getCart", {
+        axios.get("https://server-cproject.vercel.app /api/getCart", {
             headers: {
               autherize: localStorage.getItem("TOKEN")
             }
@@ -36,7 +36,7 @@ const Payment = () => {
     }, [1])
     
     const handleRequest = () => {
-        axios.post("https://server-cproject.vercel.app/api/addTicket",data,{
+        axios.post("https://server-cproject.vercel.app /api/addTicket",data,{
             headers: {
               autherize: localStorage.getItem("TOKEN")
             }
@@ -159,7 +159,7 @@ function AlertDialogExample({ cancel,setCancel }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const handleCancel = () => {
-        axios.post("https://server-cproject.vercel.app/api/removeCart",{
+        axios.post("https://server-cproject.vercel.app /api/removeCart",{
             headers: {
               autherize: localStorage.getItem("TOKEN")
             }

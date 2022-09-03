@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import { Link } from "react-router-dom";
 import { Spinner } from '@chakra-ui/react'
 import SliderHero from "./SliderHero";
-
+import axios from "axios"
 const BigSlider = ({ title, genre }) => {
     
     genre = "Action"
@@ -22,11 +22,11 @@ const BigSlider = ({ title, genre }) => {
     };
     
     useEffect(() => {
-        fetch(`https://moviesdatabase.p.rapidapi.com/titles?info=mini_info&limit=10&page=1&titleType=movie&genre=${genre}&year=2020`, options)
-        .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                setMovies(response.results)
+            axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`).then(response=>{
+                console.log(response.data?.results)
+                console.log("DB HERE")
+
+                setMovies(response.data?.results)
                 setLoading(false)
             })
         .catch(err => console.error(err));

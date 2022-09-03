@@ -13,29 +13,8 @@ import axios from "axios";
 const SliderHero = ({ movie, loading, setLoading }) => {
     const [onemovie, setOneMovie] = useState([{}])
     const [title, setTitle] = useState("")
+    const [base, setBase] = useState("https://image.tmdb.org/t/p/w500")
     
- 
-    const options = {
-        method: 'GET',
-        url: `https://moviesdatabase.p.rapidapi.com/titles/search/title/${movie.titleText?.text}`,
-        params: {info: 'base_info', limit: '10', page: '1', titleType: 'movie', exact: 'true'},
-        headers: {
-          'X-RapidAPI-Key': '30f8f07841msh32c3146f1e35d96p1df6c8jsn66be063d993c',
-          'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
-        }
-    };
-    
-    useEffect(() => {
-       
-        axios.request(options).then(response => {
-            setOneMovie(response.data.results[0])
-            setTitle(response.data.results[0].titleText?.text)
-    
-        }).catch(e => {
-            console.log(e)
-            toast.error("Sorry an error occured! retry in a few seconds")
-        })
-    }, [movie])
 
     function formatSeconds(seconds) {
         var date = new Date(1970,0,1);
@@ -53,7 +32,7 @@ const SliderHero = ({ movie, loading, setLoading }) => {
     return (
         <Box
           
-            backgroundSize={"stretch"} backgroundImage={movie.primaryImage?.url}
+            backgroundSize={"stretch"} backgroundImage={base + movie.backdrop_path}
             display={"flex"}
             justifyContent={"center"}
                 alignItems={"center"}
@@ -77,7 +56,7 @@ const SliderHero = ({ movie, loading, setLoading }) => {
             </Box>
 
             <Box w={"100%"} display={"flex"} justifyContent={"space-around"} alignItems={"center"} position={"relative"} zIndex={1}  gap={5}  >
-                <Image src={movie.primaryImage?.url} boxSize={{
+                <Image src={base+movie.poster_path} boxSize={{
                     base: '150px',
                     md: "300px",
                     lg:"500px"
@@ -103,11 +82,10 @@ const SliderHero = ({ movie, loading, setLoading }) => {
                     
                     bgGradient='linear(290deg, rgba(0, 0, 0, 1) 0%, rgba(33, 63, 135, 1) 51%, rgba(33, 63, 135, 1) 100%)'
                     p={3} rounded={"md"}>
-                    <Text noOfLines={[0,1,2]}>Title : {onemovie.titleText?.text}</Text>
-                    <Text>Duration : {formatSeconds(onemovie.runtime?.seconds)}</Text>
-                    <Text>Rating : {onemovie.ratingsSummary?.aggregateRating}/10</Text>
-                    <Text>Genre : {onemovie.genres?.genres[0].text + ","+ onemovie.genres?.genres[1].text}</Text>
-                    <Link to={`/Ticket/${onemovie.titleText?.text}`} ><Button variant='outline' _hover={{backgroundColor:"#213f87"}} rightIcon={<ConfirmationNumberRoundedIcon />}>Check it out</Button></Link>
+                    <Text noOfLines={[0,1,2]}>Title : {movie.title}</Text>
+                    <Text>Rating : {movie.vote_average}/10</Text>
+                    <Text>Release Date : {movie.release_date}</Text>
+                    <Link to={`/Ticket/${movie.id}`} ><Button variant='outline' _hover={{backgroundColor:"#213f87"}} rightIcon={<ConfirmationNumberRoundedIcon />}>Check it out</Button></Link>
                 </Box>
             </Box>
         </Box>

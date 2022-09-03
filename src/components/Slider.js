@@ -5,29 +5,33 @@ import '@splidejs/splide/dist/css/splide.min.css';
 import { useState, useEffect } from 'react'
 import { Link } from "react-router-dom";
 import { Spinner } from '@chakra-ui/react'
+import axios from "axios"
+import toast from "react-hot-toast"
 
 const Slider = ({title,genre,clickable}) => {
     const [movies, setMovies] = useState([{}])
-    const [loading,setLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
+    const [base, setBase] = useState("https://image.tmdb.org/t/p/w500")
+
     const options = {
         method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '30f8f07841msh32c3146f1e35d96p1df6c8jsn66be063d993c',
-            'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
-        }
+        url: `https://api.themoviedb.org/3/movie/upcoming?api_key=a22ab0c7d6201b413ee9ab4a9ffdb946&language=en-US&page=1`, 
     };
     
     useEffect(() => {
-        fetch(`https://moviesdatabase.p.rapidapi.com/titles?info=mini_info&limit=10&page=1&titleType=movie&genre=${genre}&year=2020`, options)
-        .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                setMovies(response.results)
-                setLoading(false)
-            })
-        .catch(err => console.error(err));
-    }, [1])
+       
+        axios.request(options).then(response => {
+            console.log(response)
+            setMovies(response.data.results)
+            setLoading(false)
     
+        }).catch(e => {
+            console.log(e)
+            axios.get(``)
+            toast.error("Sorry an error occured! retry in a few seconds")
+        })
+    }, [1])
+
     if (loading) return (
         <Box flexDirection={"column"} mt={8} p={3}>
         
@@ -69,11 +73,11 @@ const Slider = ({title,genre,clickable}) => {
                     movies?.map((m) => {
                         return (
                             <SplideSlide className='ss'>
-                                {clickable ? <Link to={`/Ticket/${m.titleText?.text}`}>
+                                {clickable ? <Link to={`/Ticket/${m.id}`}>
                                     <Box bg={"#213f87"} textAlign={"center"} rounded={"md"} display={"flex"}
                                         flexDirection={{ base: "column", md: "row" }}
                                         justifyContent={"space-around"} alignItems={"center"} p={3}>
-                                        <Image src={m.primaryImage?.url}
+                                        <Image src={base + m.poster_path}
                                             boxSize={{
                                                 base: '150px',
                                                 md: "300px"
@@ -83,7 +87,7 @@ const Slider = ({title,genre,clickable}) => {
                                             }}
                                             objectFit='cover' borderRadius={10} alt="movie poster" srcset="" />
                                         <Box display={"flex"} flexDirection={"column"} gap={3}>
-                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>{m.titleText?.text}</Text>
+                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>{m.title}</Text>
                                             <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>29days Until Release</Text>
                                         </Box>
                                     </Box>
@@ -91,7 +95,7 @@ const Slider = ({title,genre,clickable}) => {
                                     <Box bg={"#213f87"} textAlign={"center"} rounded={"md"} display={"flex"}
                                         flexDirection={{ base: "column", md: "row" }}
                                         justifyContent={"space-around"} alignItems={"center"} p={3}>
-                                        <Image src={m.primaryImage?.url}
+                                        <Image src={base+m.poster_path}
                                             boxSize={{
                                                 base: '150px',
                                                 md: "300px"
@@ -101,8 +105,7 @@ const Slider = ({title,genre,clickable}) => {
                                             }}
                                             objectFit='cover' borderRadius={10} alt="movie poster" srcset="" />
                                         <Box display={"flex"} flexDirection={"column"} gap={3}>
-                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>{m.titleText?.text}</Text>
-                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>29days Until Release</Text>
+                                            <Text color={"white"} fontSize='md' noOfLines={[0, 1, 2]}>{m.title}</Text>
                                         </Box>
                                     </Box>}
                     </SplideSlide>
