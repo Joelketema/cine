@@ -82,7 +82,9 @@ const PickItem = ({ goods }) => {
 function AlertDialogExample({cinema,time,alert,setAlert, onOpen, onClose }) {
     
     const cancelRef = useRef()
-    const {term} = useContext(AuthContext)
+  const { term } = useContext(AuthContext)
+  const { seatno } = useContext(TicketContext)
+    const[seatnumber,setSeatNumber] = seatno
     const [accept, setAccept] = term
 
 
@@ -92,15 +94,24 @@ function AlertDialogExample({cinema,time,alert,setAlert, onOpen, onClose }) {
         
             if (cinema !== ""&& time!=="") {
   
-                axios.patch('https://server-cproject.vercel.app /api/addToCart', { "cinemaName": cinema , "showtime" :time }
+                axios.patch('http://localhost:3001/api/addToCart', { "cinemaName": cinema , "showtime" :time }
                     , {
                         headers: {
                 
                             autherize: localStorage.getItem("TOKEN")
                         }
-                    }).then(res => {
+                  }).then(res => {
+                    axios.get("http://localhost:3001/api/getSeat",{
+                      headers: {
+                        autherize: localStorage.getItem("TOKEN")
+                      }
+                    }).then(response => {
+                        console.log(response)
+                      setSeatNumber(response.data)
                       setAccept(true)
                       navigate("/Book/seat")
+                  })
+                    
 
                     }).catch(e => console.log(e))
             }

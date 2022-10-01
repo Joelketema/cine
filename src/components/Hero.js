@@ -29,7 +29,7 @@ const Hero = ({ movie,loading,setLoading }) => {
         if (auth) {
             if (selectedmovie !== "") {
 
-                axios.post('https://server-cproject.vercel.app /api/initializeCart', { "movieName": selectedmovie }
+                axios.post('http://localhost:3001/api/initializeCart', { "movieName": selectedmovie }
                     , {
                         headers: {
                 
@@ -106,7 +106,7 @@ const Hero = ({ movie,loading,setLoading }) => {
                 
                 bgGradient='linear(290deg, rgba(0, 0, 0, 1) 0%, rgba(33, 63, 135, 1) 51%, rgba(33, 63, 135, 1) 100%)'
                 p={5} rounded={"md"}>
-                <Text noOfLines={[0,1,2]}>Title : {movie.title}</Text>
+                <Text noOfLines={[0,1,2]}>{movie.title}</Text>
                 <Text>Duration : {formatSeconds(movie.runtime)}</Text>
                 <Text>Rating : {(movie.vote_average).toFixed(1)}/10</Text>
                 <Text>Genres: {movie.genres[0].name + "," + movie.genres[1].name}...</Text>

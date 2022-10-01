@@ -9,7 +9,7 @@ export const TicketProvider = (props) => {
     const [cinema, setCinema] = useState("")   
     const [seats, setSeats] = useState([])   
     const [snacks, setSnacks] = useState([]) 
-    
+    const [seatnumber,setSeatNumber] = useState([])
  
     
     // movieName: "",
@@ -20,7 +20,7 @@ export const TicketProvider = (props) => {
     // purshedOn: null,
 
     return (
-        <TicketContext.Provider value={{ item: [ticket, setTicket],show:[time,setTime], seating: [seats, setSeats], cName: [cinema, setCinema], snackArray: [snacks, setSnacks] }}>
+        <TicketContext.Provider value={{ item: [ticket, setTicket],show:[time,setTime], seating: [seats, setSeats], cName: [cinema, setCinema], snackArray: [snacks, setSnacks],seatno:[seatnumber,setSeatNumber] }}>
             {props.children}
         </TicketContext.Provider> 
     )

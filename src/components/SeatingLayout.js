@@ -1,15 +1,30 @@
 import { Box, Text } from "@chakra-ui/react"
 import { SmallBox } from "./SmallBox";
-import { useState, useContext } from "react"
+import { useState, useContext,useEffect } from "react"
 import {TicketContext} from "../context/TicketContext"
 
 import { Divider } from '@chakra-ui/react'
+import axios from "axios"
 
-const seatnumber = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"]
+// const seatnumber = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"]
 
 const SeatingLayout = () => {
-    const { seating } = useContext(TicketContext)
+    const { seating,seatno } = useContext(TicketContext)
     const [seats, setSeats] = seating
+
+   
+    const[seatnumber,setSeatNumber] = seatno
+
+    useEffect(() => {
+        axios.get("http://localhost:3001/api/allSeats",{
+            headers: {
+            autherize: localStorage.getItem("TOKEN")
+            }
+        }).then(response => {
+            console.log(response)
+            setSeatNumber(response.data)
+        })
+    },[1])
     
 
     return (
@@ -20,28 +35,32 @@ const SeatingLayout = () => {
                 <Box p={3} display={"flex"} w={"100%"} justifyContent={"space-around"}>
                     <Box>
                         {
-                            seatnumber.map(s => {
-                                return (
-                                    <Box display={"flex"}  gap={5}>
-                                        <SmallBox number={s} color={"white"} textColor={"black"} />
-                                        <SmallBox number={s} color={"white"} textColor={"black"}/>
-                                        <SmallBox number={s}  color={"black"} textColor={"white"}/>
-                                    </Box>
-                                )
+                            seatnumber?.map(s => {
+                                if (s.aisle === "left") {
+                                    return (
+                                        <Box display={"flex"} gap={5}>
+                                            <SmallBox number={s.seatNumber} color={s.availability ? "white" : "black"} textColor={s.availability ? "black" : "white"} />
+                                            <SmallBox number={s.seatNumber} color={s.availability ? "white" : "black"} textColor={s.availability ? "black" : "white"} />
+                                            <SmallBox number={s.seatNumber} color={s.availability ? "white" : "black"} textColor={s.availability ? "black" : "white"} />
+                                        </Box>
+                                    )
+                                }
                             })
                         }
                     </Box>
                     <Divider orientation={"vertical"} />
                     <Box>
                         {
-                            seatnumber.map(s => {
-                                return (
-                                    <Box display={"flex"} gap={5}>
-                                        <SmallBox number={s} color={"white"} textColor={"black"} />
-                                        <SmallBox number={s} color={"white"} textColor={"black"}/>
-                                        <SmallBox number={s} color={"black"} textColor={"white"}/>
+                            seatnumber?.map(s => {
+                                if (s.aisle === "right") {
+                                    return (
+                                        <Box display={"flex"}  gap={5}>
+                                        <SmallBox number={s.seatNumber} color={s.availability ? "white" : "black"} textColor={s.availability ?"black" : "white"} />
+                                        <SmallBox number={s.seatNumber} color={s.availability ? "white" : "black"} textColor={s.availability ?"black" : "white"}/>
+                                        <SmallBox number={s.seatNumber}  color={s.availability ? "white" : "black"} textColor={s.availability ?"black" : "white"}/>
                                     </Box>
-                                )
+                                    )
+                                }
                             })
                         }
                     </Box>
