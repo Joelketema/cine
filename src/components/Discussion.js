@@ -6,42 +6,68 @@ import { Input,Button } from '@chakra-ui/react'
 import { AuthContext } from "../context/AuthContext"
 import { Link } from "react-router-dom"
 import toast from 'react-hot-toast'
+import axios from "axios"
 // import "../assets/review.css"
 
 const Discussion = ({title}) => {
 
-    const [movies, setMovies] = useState([{}])
-    const {secure} = useContext(AuthContext)
+    const [chat, setChat] = useState([{}])
+    const [empty,setEmpty] = useState(true)
+    const { secure,movietitle } = useContext(AuthContext)
+    const [selectedmovie, setSelectedMovie] = movietitle
     const [auth, setAuth] = secure
     const [discussion, setDiscussion] = useState("")
+
+    console.log(selectedmovie)
     
     const handleDiscussion = () => {
-        discussion !=="" ? toast.success("Your Chat will be Posted after Sometime. Thank You😊")
-            : toast.error("Please fill in the provided space")
+
+        if (discussion !== "") {
+            axios.post("http://localhost:3001/api/postChat", {
+                "movie": selectedmovie,
+                "message":discussion
+            }, {
+                headers:{
+                    autherize:localStorage.getItem("TOKEN")
+                }
+            }).then(response => {
+                if (response.status === 200) {
+                    toast.success("Your Chat will be Posted after Sometime. Thank You😊")
+                }
+                else {
+                    console.log(response)
+                    toast.error("Sorry an Error Occured!")       
+                }
+            }).catch(e=>{
+                console.log(e)
+                toast.error("Network Error!")
+            })
+            
+        }
+        else toast.error("Please fill in the provided space")
         
         setDiscussion("")
     }
 
+    useEffect(() => {
+        axios.post("http://localhost:3001/api/getChat", {"movie":selectedmovie}, {
+            headers: {
+                autherize:localStorage.getItem("TOKEN")
+            }
+        }).then(response => {
+            console.log(response)
+            if (response.data !== null)
+            {
+                setChat(response.data)
+                setEmpty(false)
+            }
+
+        
+        })
+    },[1])
+
     const handleDiscussionChange = (e) => setDiscussion(e.target.value)
 
-
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '30f8f07841msh32c3146f1e35d96p1df6c8jsn66be063d993c',
-            'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
-        }
-    };
-    
-    useEffect(() => {
-        fetch(`https://moviesdatabase.p.rapidapi.com/titles?info=mini_info&limit=10&page=1&titleType=movie&genre=Action&year=2020`, options)
-        .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                setMovies(response.results)
-            })
-        .catch(err => console.error(err));
-    }, [1])
     
  
     return (
@@ -49,21 +75,33 @@ const Discussion = ({title}) => {
         <Text fontSize={["17px",null,"23px"]} color={"#213f87"} fontWeight={"medium"} pb={5}>{title ? title : "Reviews"}</Text>
             <Box display={"flex"} flexDirection={"column"} bgGradient='linear(290deg, rgba(0, 0, 0, 1) 0%, rgba(33, 63, 135, 1) 51%, rgba(33, 63, 135, 1) 100%)' p={3}
                 minHeight={"500px"} maxHeight={"500px"} overflowY={"scroll"}  borderRadius={10}>    
-        <Grid templateColumns='repeat(1, 1fr)' templateRows='repeat(4, 1fr)' gap={5}>
-                {movies?.map(m => {
+                <Grid templateColumns='repeat(1, 1fr)' templateRows='repeat(4, 1fr)' gap={5}>
+                    {
+                        empty ? 
+                        <GridItem>
+                            <Box w={"100%"} display={"flex"} justifyContent={"space-between"} alignItems={"center"} gap={2}>
+                                   
+                                    <Text fontSize={"s"}  color="white" mb={5} >{"Be the First to Leave a Comment"}</Text>
+                                    
+                        </Box>             
+                            </GridItem>
+                            :
+
+                
+                chat?.map(m => {
                     return (
                 <GridItem>
                         <Box w={"100%"} display={"flex"} justifyContent={"space-between"} alignItems={"center"} gap={2}>
-                        <Image src={m.primaryImage?.url} boxSize='100px' objectFit='cover' borderRadius={"50%"} alt="movie poster" srcset="" />
+                        <Image src={"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"}  boxSize='100px' objectFit='cover' borderRadius={"50%"} alt="user avatar" srcset="" />
                                 <Box className="bubble" boxShadow={'md'} bg="black" minWidth={"200px"} maxWidth={"300px"} display={"flex"} flexDirection={"column"} textAlign={"left"} p={3} borderRadius={"10px"}>
-                                <Text fontSize={"s"}  color="white" mb={5} >Alemu Sisay</Text>
-                                <Text fontSize={"md"} color="white" w={"100%"}>This was A very Good Movie!</Text>        
+                                <Text fontSize={"s"}  color="white" mb={5} >{m.user}</Text>
+                                <Text fontSize={"md"} color="white" w={"100%"}>{m.message}</Text>        
                         </Box>
                                 
                     </Box>             
                 </GridItem>
             )
-        })}        
+        })}
             </Grid> 
                  
         </Box>
