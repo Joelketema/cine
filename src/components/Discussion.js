@@ -50,21 +50,23 @@ const Discussion = ({title}) => {
     }
 
     useEffect(() => {
-        axios.post("http://localhost:3001/api/getChat", {"movie":selectedmovie}, {
-            headers: {
-                autherize:localStorage.getItem("TOKEN")
-            }
-        }).then(response => {
-            console.log(response)
-            if (response.data !== null)
-            {
-                setChat(response.data)
-                setEmpty(false)
-            }
+        if (selectedmovie !== "") {
+            axios.post("http://localhost:3001/api/getChat", { "movie": selectedmovie }, {
+                headers: {
+                    autherize: localStorage.getItem("TOKEN")
+                }
+            }).then(response => {
+                console.log(response)
+                if (response.data !== undefined && response.data.length > 0) {
+                    console.log(response)
+                    setChat(response.data)
+                    setEmpty(false)
+                }
 
         
-        })
-    },[1])
+            })
+        }
+    },[selectedmovie])
 
     const handleDiscussionChange = (e) => setDiscussion(e.target.value)
 
