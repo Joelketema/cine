@@ -109,7 +109,7 @@ const Hero = ({ movie,loading,setLoading }) => {
                 <Text noOfLines={[0,1,2]}>{movie.title}</Text>
                 <Text>Duration : {formatSeconds(movie.runtime)}</Text>
                 <Text>Rating : {(movie.vote_average).toFixed(1)}/10</Text>
-                <Text>Genres: {movie.genres[0].name + "," + movie.genres[1].name}...</Text>
+                <Text>Genres: {movie.genres[0]?.name + "," + movie.genres[1]?.name}...</Text>
                 <Text w={"100%"}>"{movie.tagline}"</Text>
                 <Button onClick={handleRequest} variant='outline' _hover={{backgroundColor:"#213f87"}} rightIcon={<ConfirmationNumberRoundedIcon />}>{auth ? "Book Your Ticket" : "Sign up to Book"}</Button>
             </Box>
