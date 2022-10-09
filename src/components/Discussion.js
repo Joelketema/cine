@@ -18,30 +18,37 @@ const Discussion = ({title}) => {
     const [auth, setAuth] = secure
     const [discussion, setDiscussion] = useState("")
 
-    console.log(selectedmovie)
+    // console.log(selectedmovie)
     
     const handleDiscussion = () => {
 
         if (discussion !== "") {
-            axios.post("http://localhost:3001/api/postChat", {
-                "movie": selectedmovie,
-                "message":discussion
-            }, {
-                headers:{
-                    autherize:localStorage.getItem("TOKEN")
-                }
-            }).then(response => {
-                if (response.status === 200) {
-                    toast.success("Your Chat will be Posted after Sometime. Thank You😊")
-                }
-                else {
-                    console.log(response)
-                    toast.error("Sorry an Error Occured!")       
-                }
-            }).catch(e=>{
-                console.log(e)
-                toast.error("Network Error!")
-            })
+            console.log(discussion.length)
+            if (discussion.length < 50 && discussion.length > 4) {
+                axios.post("http://localhost:3001/api/postChat", {
+                    "movie": selectedmovie,
+                    "message": discussion
+                }, {
+                    headers: {
+                        autherize: localStorage.getItem("TOKEN")
+                    }
+                }).then(response => {
+                    if (response.status === 200) {
+                        toast.success("Your Chat will be Posted after Sometime. Thank You😊")
+                    }
+                    else {
+                        console.log(response)
+                        toast.error("Sorry an Error Occured!")
+                    }
+                }).catch(e => {
+                    console.log(e)
+                    toast.error("Network Error!")
+                })
+            }
+            else if(discussion.length < 4) {
+                toast.error("Review Characters Should be minimum of 4!")   
+            }
+            else toast.error("Max Character length Exceeded!")
             
         }
         else toast.error("Please fill in the provided space")
@@ -61,6 +68,9 @@ const Discussion = ({title}) => {
                     console.log(response)
                     setChat(response.data)
                     setEmpty(false)
+                }
+                else {
+                    setEmpty(true)
                 }
 
         
@@ -98,6 +108,7 @@ const Discussion = ({title}) => {
                                 <Box className="bubble" boxShadow={'md'} bg="black" minWidth={"200px"} maxWidth={"300px"} display={"flex"} flexDirection={"column"} textAlign={"left"} p={3} borderRadius={"10px"}>
                                 <Text fontSize={"s"}  color="white" mb={5} >{m.user}</Text>
                                 <Text fontSize={"md"} color="white" w={"100%"}>{m.message}</Text>        
+                                <Text fontSize={"md"} color="white" w={"100%"}>{new Date(m?.postedOn).getFullYear() + "-" +new Date(m?.postedOn).getMonth() + "-"+ new Date(m?.postedOn).getDate()}</Text>        
                         </Box>
                                 
                     </Box>             

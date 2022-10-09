@@ -21,7 +21,12 @@ const Hero = ({ movie,loading,setLoading }) => {
     
     const navigate = useNavigate()
 
-    console.log(movie)
+    useEffect(() => {
+        if (localStorage.getItem("TOKEN")) {
+            setAuth(true)
+        }
+        else setAuth(false)
+    },[auth])
 
     
 
