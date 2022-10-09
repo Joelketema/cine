@@ -134,9 +134,14 @@ function AlertDialogExample({cinema,time,alert,setAlert, onOpen, onClose }) {
               </AlertDialogHeader>
   
               <AlertDialogBody>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque fugiat tempora quae nemo corrupti. Iste, ea! Sit, ea ducimus. Nihil.
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque fugiat tempora quae nemo corrupti. Iste, ea! Sit, ea ducimus. Nihil.
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque fugiat tempora quae nemo corrupti. Iste, ea! Sit, ea ducimus. Nihil.
+              1. Food Beverages are not allowed inside the auditorium as per the state government guidelines.<br/>
+              2. Tickets are compulsory for children of 3 years &amp; above.<br/>
+              3. After Successful Purchase tickets are <strong> NONREFUNDABLE </strong>.<br/>
+              4. Items like laptops, cameras, knives, lighters, matchboxes, cigarettes, firearms, and all types of inflammable objects are strictly prohibited.<br/>
+              5. Items like carry-bags, eatables, helmets, handbags are not allowed inside the theatres and are strictly prohibited. Kindly deposit at the baggage counter of the mall/cinema.<br/>
+              6. For 3D movies, ticket price includes charges towards the usage of 3D glasses.<br/>
+              7. The seat Layout page for PVR Cinemas is for representational purposes only and the actual seat layout might vary.<br/>
+              8. Outside food &amp; beverages are not allowed in the cinema premises.
 
               </AlertDialogBody>
   
