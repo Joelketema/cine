@@ -23,7 +23,7 @@ const ProfilePage = () => {
     
 
     useEffect(() => {
-        axios.get("http://localhost:3001/auth/getProfile", {
+        axios.get("https://server-cproject.vercel.app/auth/getProfile", {
             headers: {
       
               autherize: localStorage.getItem("TOKEN")
@@ -93,7 +93,7 @@ function ChangePassword({ flag, isOpen, onOpen, onClose }) {
     const handleRequest = () => {
 
         if (oldpassword !== "" && newpassword !== "") {
-            axios.patch("http://localhost:3001/auth/editProfile",{"oldPassword" : oldpassword,"newPassword":newpassword}, {
+            axios.patch("https://server-cproject.vercel.app/auth/editProfile",{"oldPassword" : oldpassword,"newPassword":newpassword}, {
                 headers: {
           
                   autherize: localStorage.getItem("TOKEN")
@@ -112,7 +112,7 @@ function ChangePassword({ flag, isOpen, onOpen, onClose }) {
     }
 
     const handleDelete = () => {
-        axios.delete("http://localhost:3001/auth/removeProfile", {
+        axios.delete("https://server-cproject.vercel.app/auth/removeProfile", {
             headers: {
       
               autherize: localStorage.getItem("TOKEN")

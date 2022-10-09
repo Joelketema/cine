@@ -10,7 +10,7 @@ export default function MyTicket() {
     const [purchaseInfo,setPurchaseInfo] = useState([])
    
     useEffect(() => {
-        axios.get("http://localhost:3001/api/getTickets", {
+        axios.get("https://server-cproject.vercel.app/api/getTickets", {
             headers: {
       
               autherize: localStorage.getItem("TOKEN")

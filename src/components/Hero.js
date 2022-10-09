@@ -34,7 +34,7 @@ const Hero = ({ movie,loading,setLoading }) => {
         if (auth) {
             if (selectedmovie !== "") {
 
-                axios.post('http://localhost:3001/api/initializeCart', { "movieName": selectedmovie }
+                axios.post('https://server-cproject.vercel.app/api/initializeCart', { "movieName": selectedmovie }
                     , {
                         headers: {
                 

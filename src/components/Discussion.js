@@ -25,7 +25,7 @@ const Discussion = ({title}) => {
         if (discussion !== "") {
             console.log(discussion.length)
             if (discussion.length < 50 && discussion.length > 4) {
-                axios.post("http://localhost:3001/api/postChat", {
+                axios.post("https://server-cproject.vercel.app/api/postChat", {
                     "movie": selectedmovie,
                     "message": discussion
                 }, {
@@ -58,7 +58,7 @@ const Discussion = ({title}) => {
 
     useEffect(() => {
         if (selectedmovie !== "") {
-            axios.post("http://localhost:3001/api/getChat", { "movie": selectedmovie }, {
+            axios.post("https://server-cproject.vercel.app/api/getChat", { "movie": selectedmovie }, {
                 headers: {
                     autherize: localStorage.getItem("TOKEN")
                 }
