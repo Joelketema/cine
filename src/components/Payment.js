@@ -146,6 +146,10 @@ const Payment = () => {
           
             <Box p={5} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                 <Text>Your Ticket has Expired! Please Try Again!</Text>
+                <Button onClick={() => {
+                            // setHaveAccount(false)
+                            navigate("/")
+                        }} bg={"black"} color={'white'} _hover={{ backgroundColor: "black" }} mt={5}>Take me Home</Button>
             </Box>
                 
                 
