@@ -1,6 +1,7 @@
 import { Box, Input, Button,Text,Image } from "@chakra-ui/react"
 import { useState,useEffect,useRef} from "react"
-import {Link,useNavigate} from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import LoginButton from "../components/LoginButton"
 // import logo from "../public/music.svg"
 import { Auth } from "../components/Auth"
 import axios from "axios";
@@ -14,7 +15,7 @@ import {
     AlertDialogHeader,
     AlertDialogContent,
     AlertDialogOverlay,useDisclosure,Tooltip
-} from '@chakra-ui/react'
+} from '@chakra-ui/react'  
 
 
 const AuthForm = () => {
@@ -89,6 +90,7 @@ function Login({ setHaveAccount }) {
             <Box w={"fit-content"} justifyContent={"center"} gap={2} alignItems={"center"} display={"flex"} flexDirection={"column"} bg={"white"} h={"80%"} p={10} rounded={"lg"}>
                 <Auth register={false} login={true} />
                 <Text fontSize={"small"} cursor={"pointer"} onClick={onOpen}>Forgot your password?</Text>
+                <LoginButton text={"Login With Google"} />
                 <Button bg={"black"} color={'white'} _hover={{backgroundColor:"black"}} mt={5} onClick={()=>setHaveAccount(false)}> Don't have an account?</Button> 
            {isOpen && <ResetPassword  isOpen={isOpen} onOpen={onOpen} onClose={onClose} />}
             </Box>
@@ -108,7 +110,8 @@ function Signup({setHaveAccount}) {
         >
             <Box w={"fit-content"}  bg={"white"} h={"80%"} p={10} alignSelf={"center"}  rounded={"lg"}>
                 <Auth register={true} login={false} />
-                <Button bg={"black"} color={'white'} _hover={{backgroundColor:"black"}} mt={5} onClick={()=>setHaveAccount(true)}>have an account?</Button>
+                <Button bg={"black"} color={'white'} _hover={{ backgroundColor: "black" }} mt={5} onClick={() => setHaveAccount(true)}>have an account?</Button>
+                <LoginButton text={"Signup With Google"} />
             </Box>
     </Box> 
         

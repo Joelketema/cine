@@ -64,7 +64,7 @@ export function Auth({ register, login }) {
                 "Email": email,
                 "password": password
             }).then(res => {
-           console.log(res.headers['autherize'])
+           
                 if (res.headers['autherize'])
                 {
                     console.log(res.headers["user"]) 
