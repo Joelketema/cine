@@ -56,8 +56,8 @@ function App() {
         <Route path="/Book/snacks" element={<Snack movieTitle={movieTitle} />} />
         <Route path="/Book/seat" element={<Seat movieTitle={movieTitle} />} />
         <Route path="/Book/checkout" element={<Checkout movieTitle={movieTitle} />} />
-          <Route path="/Book/finish" element={<Finish movieTitle={movieTitle} />} />
-          <Route path="*" element={<Navigate to='/' replace />} />
+        <Route path="/Book/finish" element={<Finish movieTitle={movieTitle} />} />
+        <Route path="*" element={<Navigate to='/' replace />} />
     </Routes>
     <Footer/>
     </AuthProvider>

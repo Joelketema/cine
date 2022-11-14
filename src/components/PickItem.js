@@ -94,14 +94,14 @@ function AlertDialogExample({cinema,time,alert,setAlert, onOpen, onClose }) {
         
             if (cinema !== ""&& time!=="") {
   
-                axios.patch('https://server-cproject.vercel.app/api/addToCart', { "cinemaName": cinema , "showtime" :time }
+                axios.patch('http://localhost:3001/api/addToCart', { "cinemaName": cinema , "showtime" :time }
                     , {
                         headers: {
                 
                             autherize: localStorage.getItem("TOKEN")
                         }
                   }).then(res => {
-                    axios.get("https://server-cproject.vercel.app/api/getSeat",{
+                    axios.get("http://localhost:3001/api/getSeat",{
                       headers: {
                         autherize: localStorage.getItem("TOKEN")
                       }

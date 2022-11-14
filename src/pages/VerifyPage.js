@@ -11,7 +11,7 @@ export default function VerifyPage({ setHaveAccount }) {
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
     useEffect(() => {
-        axios.get(`https://server-cproject.vercel.app/auth/${params.id}/verify/${params.token}`).then(response => {
+        axios.get(`http://localhost:3001/auth/${params.id}/verify/${params.token}`).then(response => {
             response.data === "verified" ? setValid(true) : setValid(false)
 
             setLoading(false)
