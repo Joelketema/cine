@@ -26,7 +26,7 @@ export default function ForgotPage() {
 
     const handleRequest = () => {
 
-        axios.patch("http://localhost:3001/auth/resetPassword", { "uid": uid, "password": newpassword }).then(res => {
+        axios.patch("https://server-cproject.vercel.app/auth/resetPassword", { "uid": uid, "password": newpassword }).then(res => {
             console.log(res)
            
             if (res.status === 200) {
@@ -48,7 +48,7 @@ export default function ForgotPage() {
     useEffect(() => {
         if (params.id !== "") setUID(params.id)
         
-        axios.get(`http://localhost:3001/auth/${params.id}/forgot/${params.token}`).then(response => {
+        axios.get(`https://server-cproject.vercel.app/auth/${params.id}/forgot/${params.token}`).then(response => {
             response.status === 200 ? setValid(true) : setValid(false)
             setLoading(false)
         }).catch(e => {

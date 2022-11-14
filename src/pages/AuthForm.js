@@ -129,7 +129,7 @@ function ResetPassword({ isOpen, onOpen, onClose }) {
 
     const handleRequest = () => {
         if (findEmail !== "") {
-            axios.post("http://localhost:3001/auth/forgotpassword", { "email": findEmail }).then(res => {
+            axios.post("https://server-cproject.vercel.app/auth/forgotpassword", { "email": findEmail }).then(res => {
                 console.log(res)
                 res.status === 200 ? toast.success("A Password Reset Link has been sent to your Email") : toast.error("Invalid Email!")
             }).catch(e => {
