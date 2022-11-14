@@ -38,7 +38,7 @@ const Snack = ({  }) => {
 
     const handleRequest = () => {
         if (snacks.length > 0) {
-          axios.post("https://server-cproject.vercel.app/api/addToCartSnacks", snacks, {
+          axios.post("http://localhost:3001/api/addToCartSnacks", snacks, {
             headers: {
       
               autherize: localStorage.getItem("TOKEN")

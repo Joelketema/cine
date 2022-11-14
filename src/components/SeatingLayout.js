@@ -16,7 +16,7 @@ const SeatingLayout = () => {
     const[seatnumber,setSeatNumber] = seatno
 
     useEffect(() => {
-        axios.get("https://server-cproject.vercel.app/api/allSeats",{
+        axios.get("http://localhost:3001/api/allSeats",{
             headers: {
             autherize: localStorage.getItem("TOKEN")
             }
