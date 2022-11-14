@@ -44,7 +44,7 @@ const Seat = ({ }) => {
 
   const handleRequest = () => {
     if (seats.length > 0) {
-      axios.post("http://localhost:3001/api/addToCartSeats", seats, {
+      axios.post("https://server-cproject.vercel.app/api/addToCartSeats", seats, {
         headers: {
   
           autherize: localStorage.getItem("TOKEN")

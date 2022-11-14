@@ -13,7 +13,7 @@ const LoginButton = ({text}) => {
     const onSuccess = (res) => {
         if (text === "Login With Google") {
             console.log(res.tokenId)
-            axios.post("http://localhost:3001/auth/login", {
+            axios.post("https://server-cproject.vercel.app/auth/login", {
                 "Email": res.profileObj.email,
                 "password": res.tokenId
             }).then(res => {
@@ -39,7 +39,7 @@ const LoginButton = ({text}) => {
         }
         else {
             console.log(res.tokenId)
-            axios.post("http://localhost:3001/auth/register",
+            axios.post("https://server-cproject.vercel.app/auth/register",
                 {
                     "Name": res.profileObj.name,
                     "Email": res.profileObj.email,
@@ -48,7 +48,7 @@ const LoginButton = ({text}) => {
                 .then(response => {
                     
                     if (response.status === 200) {
-                        axios.post("http://localhost:3001/auth/login", {
+                        axios.post("https://server-cproject.vercel.app/auth/login", {
                             "Email": res.profileObj.email,
                             "password": res.tokenId
                         }).then(res => {
